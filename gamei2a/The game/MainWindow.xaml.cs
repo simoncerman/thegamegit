@@ -229,6 +229,12 @@ namespace The_game
                     }
 
                 }
+                if (borderontop == true)
+                {
+                    c.Margin = new Thickness(left, 0, 0, 0);
+                    force = - 4;
+                    MainWindow.force =  - 4;
+                }
                 if (borderondown == false && borderontop == false)
                 {
                     MainWindow.force = MainWindow.force - 4;
