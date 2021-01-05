@@ -13,7 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
+using System.Data;
+using System.Diagnostics;
 namespace The_game
 {
     /// <summary>
@@ -29,10 +30,11 @@ namespace The_game
             public int wallleft { get; set; }
             public int wallright { get; set; }
             public int wallup { get; set; }
-            public int walldown { get; set; } 
+            public int walldown { get; set; }
         }
         public static List<walliind> wali = new List<walliind>();
         //
+        public static int testonly = 0;
         public static int workinggrid_width = 900;
         public static int workinggrid_height = 750;
         //character 
@@ -63,7 +65,7 @@ namespace The_game
         int interval = 0;
         int ts = 300;
         public static bool right, left, jump;
-        int gravity = 25;
+        int gravity = 40;
         public static int force = 0;
         public static bool objectontopwas;
         public static bool objectondownwas;
@@ -213,20 +215,31 @@ namespace The_game
                     borderontop = true;
                 }
                 //kontrola border pod
-                if (MainWindow.char_height + up >= MainWindow.workinggrid_height)
+                if (MainWindow.char_height + up >= MainWindow.workinggrid_height-6)
                 {
                     borderondown = true;
-                    MainWindow.force = 0;
-                    force = 0;
+                    if (force > 0)
+                    {
+                        c.Margin = new Thickness(left, up - force, 0, 0);
+                    }
+                    else
+                    {
+                        c.Margin = new Thickness(left, MainWindow.workinggrid_height - MainWindow.char_height, 0, 0);
+                        MainWindow.force = 0;
+                    }
+
                 }
-                //provedení akcí -_-
-                //Pokud jsme v prostoru a pod námi není nic
-                if (borderondown == false && objectondown == false)
+                if (borderondown == false && borderontop == false)
                 {
                     MainWindow.force = MainWindow.force - 1;
-                    force = force - 1;
+                    force = force - 10;
+                    c.Margin = new Thickness(left, up - force,0,0);
+                    Debug.WriteLine(force);
                 }
-                c.Margin = new Thickness(left, up - force,0,0);
+                
+                //provedení akcí -_-
+                //Pokud jsme v prostoru a pod námi není nic
+
                 
 
             }
