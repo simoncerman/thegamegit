@@ -231,8 +231,8 @@ namespace The_game
                 }
                 if (borderondown == false && borderontop == false)
                 {
-                    MainWindow.force = MainWindow.force - 1;
-                    force = force - 10;
+                    MainWindow.force = MainWindow.force - 4;
+                    force = force - 4;
                     c.Margin = new Thickness(left, up - force,0,0);
                     Debug.WriteLine(force);
                 }
