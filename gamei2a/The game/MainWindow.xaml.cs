@@ -33,8 +33,6 @@ namespace The_game
         }
         public static List<walliind> wali = new List<walliind>();
         //
-
-        public static int testonly = 0;
         public static int workinggrid_width = 900;
         public static int workinggrid_height = 750;
         //character 
