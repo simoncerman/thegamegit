@@ -1,0 +1,75 @@
+C:\Users\Šíma main\Desktop\The game\The game\bin\Debug\The game.exe.config
+C:\Users\Šíma main\Desktop\The game\The game\bin\Debug\The game.exe
+C:\Users\Šíma main\Desktop\The game\The game\bin\Debug\The game.pdb
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\The game.csprojAssemblyReference.cache
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\MainWindow.g.cs
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\App.g.cs
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\The game_MarkupCompile.cache
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\The game_MarkupCompile.lref
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\MainWindow.baml
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\The game.g.resources
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\The_game.Properties.Resources.resources
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\The game.csproj.GenerateResource.cache
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\The game.csproj.CoreCompileInputs.cache
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\The game.exe
+C:\Users\Šíma main\Desktop\The game\The game\obj\Debug\The game.pdb
+D:\Škola\INF\Hamanova\The game\The game\bin\Debug\The game.exe.config
+D:\Škola\INF\Hamanova\The game\The game\bin\Debug\The game.exe
+D:\Škola\INF\Hamanova\The game\The game\bin\Debug\The game.pdb
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.csprojAssemblyReference.cache
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\MainWindow.g.cs
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\App.g.cs
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\The game_MarkupCompile.cache
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\The game_MarkupCompile.lref
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\MainWindow.baml
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.g.resources
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\The_game.Properties.Resources.resources
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.csproj.GenerateResource.cache
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.csproj.CoreCompileInputs.cache
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.exe
+D:\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.pdb
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.csprojAssemblyReference.cache
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\MainWindow.g.cs
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\App.g.cs
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\The game_MarkupCompile.cache
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\The game_MarkupCompile.lref
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.exe
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.pdb
+C:\save\Škola\INF\Hamanova\The game\The game\bin\Debug\The game.exe.config
+C:\save\Škola\INF\Hamanova\The game\The game\bin\Debug\The game.exe
+C:\save\Škola\INF\Hamanova\The game\The game\bin\Debug\The game.pdb
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\MainWindow.baml
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.g.resources
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\The_game.Properties.Resources.resources
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.csproj.GenerateResource.cache
+C:\save\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.csproj.CoreCompileInputs.cache
+C:\work\Škola\INF\Hamanova\The game\The game\bin\Debug\The game.exe.config
+C:\work\Škola\INF\Hamanova\The game\The game\bin\Debug\The game.exe
+C:\work\Škola\INF\Hamanova\The game\The game\bin\Debug\The game.pdb
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.csprojAssemblyReference.cache
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\MainWindow.g.cs
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\App.g.cs
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\The game_MarkupCompile.cache
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\The game_MarkupCompile.lref
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\MainWindow.baml
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.g.resources
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\The_game.Properties.Resources.resources
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.csproj.GenerateResource.cache
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.csproj.CoreCompileInputs.cache
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.exe
+C:\work\Škola\INF\Hamanova\The game\The game\obj\Debug\The game.pdb
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\bin\Debug\The game.exe.config
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\bin\Debug\The game.exe
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\bin\Debug\The game.pdb
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\The game.csprojAssemblyReference.cache
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\MainWindow.g.cs
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\App.g.cs
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\The game_MarkupCompile.cache
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\The game_MarkupCompile.lref
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\MainWindow.baml
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\The game.g.resources
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\The_game.Properties.Resources.resources
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\The game.csproj.GenerateResource.cache
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\The game.csproj.CoreCompileInputs.cache
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\The game.exe
+C:\work\Škola\INF\Hamanova\The game\gamei2a\The game\obj\Debug\The game.pdb
