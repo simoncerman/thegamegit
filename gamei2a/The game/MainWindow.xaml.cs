@@ -46,6 +46,7 @@ namespace The_game
         character ivan;
         wall wall1;
         wall wall2;
+        wall wall3;
         DispatcherTimer time = new DispatcherTimer(DispatcherPriority.Render);
 
         public MainWindow()
@@ -57,8 +58,9 @@ namespace The_game
             //object creating
             ivan = new character(mriz);
             // stěny ///
-            wall1 = new wall(500, 600, 150, 200, mriz);
-            wall2 = new wall(200, 200, 200, 200, mriz);
+            wall1 = new wall(100, 300, 150, 50, mriz);
+            wall2 = new wall(600, 300, 150, 50, mriz);
+            wall3 = new wall(350, 500, 150, 50, mriz);
             //
 
         }
@@ -188,31 +190,53 @@ namespace The_game
             }
             public void jumpe(int force)
             {
-                bool objectontop = true;
+                bool objectontop = false;
                 bool objectondown = false;
                 bool borderontop = false;
                 bool borderondown = false;
-
                 int left = Convert.ToInt32(c.Margin.Left);
                 int up = Convert.ToInt32(c.Margin.Top);
 
                 foreach (walliind w in wali)
                 {
                     //kontrola wall nad
-                    if (up < w.walldown && left + MainWindow.char_width > w.wallleft && left < w.wallright && up + MainWindow.char_height > w.wallup)
+                    if (left+MainWindow.char_width>w.wallleft&&left<w.wallright&&up<w.walldown&&up+MainWindow.char_height>w.walldown)
                     {
                         objectontop = true;
+                        c.Margin = new Thickness(left, w.walldown, 0, 0);
                     }
                     //kontrola wall pod 
-                    if (up + MainWindow.char_height > w.wallup && left + MainWindow.char_width > w.wallleft && left < w.wallright && up < w.walldown)
+                    if (up+MainWindow.char_height>=w.wallup&&left+MainWindow.char_width>w.wallleft&&left<w.wallright&&up<w.wallup)
                     {
                         objectondown = true;
+                        if (force < 0)
+                        {
+                            c.Margin = new Thickness(left, w.wallup - MainWindow.char_height, 0, 0);
+                        }
                     }
                 }
                 //kontrola border nad
+                if(objectondown == true)
+                {
+                    if (force > 0)
+                    {
+                        c.Margin = new Thickness(left, up - force, 0, 0);
+                    }
+                    if (force <= 0)
+                    {
+                        force = 0;
+                        MainWindow.force = 0;
+                    }
+
+                }
                 if (up < 0)
                 {
                     borderontop = true;
+                }
+                if (objectontop == true)
+                {
+                     force = -4;
+                    MainWindow.force = -4;
                 }
                 //kontrola border pod
                 if (MainWindow.char_height + up >= MainWindow.workinggrid_height - 6)
@@ -235,7 +259,7 @@ namespace The_game
                     force = -4;
                     MainWindow.force = -4;
                 }
-                if (borderondown == false && borderontop == false)
+                if (borderondown == false && borderontop == false && objectondown == false)
                 {
                     MainWindow.force = MainWindow.force - 4;
                     force = force - 4;
