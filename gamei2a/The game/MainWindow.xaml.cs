@@ -151,9 +151,10 @@ namespace The_game
                 int up = Convert.ToInt32(c.Margin.Top);
                 foreach (walliind w in wali)
                 {
-                    if (left < w.wallright && up < w.walldown && up+MainWindow.char_height>w.wallup && left+MainWindow.char_width>w.wallleft+5)
+                    if (left-1 < w.wallright && up < w.walldown && up+MainWindow.char_height>w.wallup && left+MainWindow.char_width>w.wallleft+5)
                     {
                         inner = false;
+                        c.Margin = new Thickness(w.wallright, up, 0, 0);
                     }
                 }
                 if(left<5)
@@ -172,9 +173,10 @@ namespace The_game
                 int up = Convert.ToInt32(c.Margin.Top);
                 foreach (walliind w in wali)
                 {
-                    if(left + MainWindow.char_height > w.wallleft && up<w.walldown && up+MainWindow.char_height>w.wallup && left<w.wallleft)
+                    if(left+ 1 + MainWindow.char_height > w.wallleft && up<w.walldown && up+MainWindow.char_height>w.wallup && left<w.wallleft)
                     {
                         inner = false;
+                        c.Margin = new Thickness(w.wallleft-MainWindow.char_width, up, 0, 0);
                     }
                 }
                 if (left + MainWindow.char_width > MainWindow.workinggrid_width)
