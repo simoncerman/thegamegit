@@ -76,7 +76,7 @@ namespace The_game
             if (right == true) { ivan.moveright(); }
             if (left == true) { ivan.moveleft(); }
             interval++;
-            if (interval == 1000/ ts)
+            if (interval == 1000 / ts)
             {
                 ivan.jumpe(force);
                 interval = 0;
@@ -95,7 +95,7 @@ namespace The_game
         private void KeyUp1(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Right) { right = false; }
-            if (e.Key == Key.Left){ left = false; }
+            if (e.Key == Key.Left) { left = false; }
         }
         // main wall class (class for making wall omegalul)
         class wall
@@ -118,9 +118,9 @@ namespace The_game
             {
                 walliind save = new walliind()
                 {
-                    walldown = y+vyska,
+                    walldown = y + vyska,
                     wallleft = x,
-                    wallright = x+sirka,
+                    wallright = x + sirka,
                     wallup = y,
                 };
                 MainWindow.wali.Add(save);
@@ -151,13 +151,12 @@ namespace The_game
                 int up = Convert.ToInt32(c.Margin.Top);
                 foreach (walliind w in wali)
                 {
-                    if (left-1 < w.wallright && up < w.walldown && up+MainWindow.char_height>w.wallup && left+MainWindow.char_width>w.wallleft+5)
+                    if (left - 1 < w.wallright && up < w.walldown && up + MainWindow.char_height > w.wallup && left + MainWindow.char_width > w.wallleft + 5)
                     {
                         inner = false;
-                        c.Margin = new Thickness(w.wallright, up, 0, 0);
                     }
                 }
-                if(left<5)
+                if (left < 5)
                 {
                     inner = false;
                 }
@@ -173,10 +172,9 @@ namespace The_game
                 int up = Convert.ToInt32(c.Margin.Top);
                 foreach (walliind w in wali)
                 {
-                    if(left+ 1 + MainWindow.char_height > w.wallleft && up<w.walldown && up+MainWindow.char_height>w.wallup && left<w.wallleft)
+                    if (left + 1 + MainWindow.char_height > w.wallleft && up < w.walldown && up + MainWindow.char_height > w.wallup && left < w.wallleft)
                     {
                         inner = false;
-                        c.Margin = new Thickness(w.wallleft-MainWindow.char_width, up, 0, 0);
                     }
                 }
                 if (left + MainWindow.char_width > MainWindow.workinggrid_width)
@@ -197,27 +195,27 @@ namespace The_game
 
                 int left = Convert.ToInt32(c.Margin.Left);
                 int up = Convert.ToInt32(c.Margin.Top);
-                
+
                 foreach (walliind w in wali)
                 {
                     //kontrola wall nad
-                    if (up<w.walldown&&left+MainWindow.char_width>w.wallleft&&left<w.wallright&&up+MainWindow.char_height>w.wallup)
+                    if (up < w.walldown && left + MainWindow.char_width > w.wallleft && left < w.wallright && up + MainWindow.char_height > w.wallup)
                     {
                         objectontop = true;
                     }
                     //kontrola wall pod 
-                    if (up+MainWindow.char_height>w.wallup&&left+MainWindow.char_width>w.wallleft&&left<w.wallright&&up<w.walldown)
+                    if (up + MainWindow.char_height > w.wallup && left + MainWindow.char_width > w.wallleft && left < w.wallright && up < w.walldown)
                     {
                         objectondown = true;
                     }
                 }
                 //kontrola border nad
-                if (up<0)
+                if (up < 0)
                 {
                     borderontop = true;
                 }
                 //kontrola border pod
-                if (MainWindow.char_height + up >= MainWindow.workinggrid_height-6)
+                if (MainWindow.char_height + up >= MainWindow.workinggrid_height - 6)
                 {
                     borderondown = true;
                     if (force > 0)
@@ -234,21 +232,21 @@ namespace The_game
                 if (borderontop == true)
                 {
                     c.Margin = new Thickness(left, 0, 0, 0);
-                    force = - 4;
-                    MainWindow.force =  - 4;
+                    force = -4;
+                    MainWindow.force = -4;
                 }
                 if (borderondown == false && borderontop == false)
                 {
                     MainWindow.force = MainWindow.force - 4;
                     force = force - 4;
-                    c.Margin = new Thickness(left, up - force,0,0);
+                    c.Margin = new Thickness(left, up - force, 0, 0);
                     Debug.WriteLine(force);
                 }
-                
+
                 //provedení akcí -_-
                 //Pokud jsme v prostoru a pod námi není nic
 
-                
+
 
             }
         }
