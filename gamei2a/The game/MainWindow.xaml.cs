@@ -65,14 +65,14 @@ namespace The_game
 
         }
         int interval = 0;
-        int ts = 300;
+        int ts = 500;
+        public static int doublejump = 0;
         public static bool right, left, jump;
         int gravity = 40;
         public static int force = 0;
-        public static bool objectontopwas;
-        public static bool objectondownwas;
-        public static bool borderontopwas;
-        public static bool borderondownwas;
+        public static BitmapImage charleft = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigleft.png"));
+        public static BitmapImage charright = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigright.png"));
+        public static BitmapImage wallimg = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/testwall.png"));
         private void Clock(object sender, EventArgs e)
         {
             if (right == true) { ivan.moveright(); }
@@ -89,8 +89,9 @@ namespace The_game
         {
             if (e.Key == Key.Right) { right = true; }
             if (e.Key == Key.Left) { left = true; }
-            if (e.Key == Key.Space)
+            if (e.Key == Key.Space&&doublejump<1)
             {
+                doublejump += 1;
                 MainWindow.force = gravity;
             }
         }
@@ -114,6 +115,7 @@ namespace The_game
                 w.HorizontalAlignment = HorizontalAlignment.Left;
                 mriz.Children.Add(w);
                 jevois(x, y, sirka, vyska);
+                w.Fill = new ImageBrush(wallimg);
             }
 
             private static void jevois(int x, int y, int sirka, int vyska)
@@ -136,6 +138,14 @@ namespace The_game
             Rectangle c;
             public character(Grid mriz)
             {
+                Image charac1 = new Image();
+                charac1.Width = MainWindow.char_width;
+                charac1.Height = MainWindow.char_height;
+
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrig.png");
+                bi.EndInit();
                 c = new Rectangle();
                 c.Width = MainWindow.char_width;
                 c.Height = MainWindow.char_height;
@@ -144,6 +154,11 @@ namespace The_game
                 c.HorizontalAlignment = HorizontalAlignment.Left;
                 c.Margin = new Thickness(50, /*MainWindow.workinggrid_height - MainWindow.char_height*/100, 0, 0);
                 mriz.Children.Add(c);
+                c.Fill = new ImageBrush
+                {
+                    ImageSource = charright
+                };
+
             }
 
             public void moveleft()
@@ -166,6 +181,7 @@ namespace The_game
                 if (inner == true)
                 {
                     c.Margin = new Thickness(left - 10, up, 0, 0);
+                    c.Fill = new ImageBrush(charleft);
                 }
             }
             public void moveright()
@@ -188,6 +204,7 @@ namespace The_game
                 if (inner == true)
                 {
                     c.Margin = new Thickness(left + 10, up, 0, 0);
+                    c.Fill = new ImageBrush(charright);
                 }
             }
             public void jumpe(int force)
@@ -220,6 +237,7 @@ namespace The_game
                 //kontrola border nad
                 if(objectondown == true)
                 {
+                    MainWindow.doublejump = 0; 
                     if (force > 0)
                     {
                         c.Margin = new Thickness(left, up - force, 0, 0);
@@ -237,8 +255,8 @@ namespace The_game
                 }
                 if (objectontop == true)
                 {
-                     force = -4;
-                    MainWindow.force = -4;
+                     force = -3;
+                    MainWindow.force = -3;
                 }
                 //kontrola border pod
                 if (MainWindow.char_height + up >= MainWindow.workinggrid_height - 6)
@@ -253,18 +271,19 @@ namespace The_game
                         c.Margin = new Thickness(left, MainWindow.workinggrid_height - MainWindow.char_height, 0, 0);
                         MainWindow.force = 0;
                     }
+                    MainWindow.doublejump = 0;
 
                 }
                 if (borderontop == true)
                 {
                     c.Margin = new Thickness(left, 0, 0, 0);
-                    force = -4;
-                    MainWindow.force = -4;
+                    force = -3;
+                    MainWindow.force = -3;
                 }
                 if (borderondown == false && borderontop == false && objectondown == false)
                 {
-                    MainWindow.force = MainWindow.force - 4;
-                    force = force - 4;
+                    MainWindow.force = MainWindow.force - 3;
+                    force = force - 3;
                     c.Margin = new Thickness(left, up - force, 0, 0);
                     Debug.WriteLine(force);
                 }
