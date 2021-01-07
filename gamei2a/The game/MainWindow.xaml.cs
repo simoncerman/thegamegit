@@ -70,8 +70,6 @@ namespace The_game
         public static bool right, left, jump;
         int gravity = 30;
         public static int force = 0;
-        public static BitmapImage charleft = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigleft.png"));
-        public static BitmapImage charright = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigright.png"));
         public static BitmapImage wallimg = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/testwall.png"));
         private void Clock(object sender, EventArgs e)
         {
@@ -135,6 +133,8 @@ namespace The_game
 
         class character
         {
+            BitmapImage charleft = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigleft.png"));
+            BitmapImage charright = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigright.png"));
             Rectangle c;
             public character(Grid mriz)
             {
@@ -142,10 +142,6 @@ namespace The_game
                 charac1.Width = MainWindow.char_width;
                 charac1.Height = MainWindow.char_height;
 
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrig.png");
-                bi.EndInit();
                 c = new Rectangle();
                 c.Width = MainWindow.char_width;
                 c.Height = MainWindow.char_height;
@@ -154,10 +150,7 @@ namespace The_game
                 c.HorizontalAlignment = HorizontalAlignment.Left;
                 c.Margin = new Thickness(50, /*MainWindow.workinggrid_height - MainWindow.char_height*/100, 0, 0);
                 mriz.Children.Add(c);
-                c.Fill = new ImageBrush
-                {
-                    ImageSource = charright
-                };
+                c.Fill = new ImageBrush(charright);
 
             }
 
