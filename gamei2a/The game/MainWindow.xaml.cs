@@ -68,7 +68,7 @@ namespace The_game
         int ts = 500;
         public static int doublejump = 0;
         public static bool right, left, jump;
-        int gravity = 40;
+        int gravity = 30;
         public static int force = 0;
         public static BitmapImage charleft = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigleft.png"));
         public static BitmapImage charright = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigright.png"));
@@ -180,7 +180,7 @@ namespace The_game
                 }
                 if (inner == true)
                 {
-                    c.Margin = new Thickness(left - 10, up, 0, 0);
+                    c.Margin = new Thickness(left - 5, up, 0, 0);
                     c.Fill = new ImageBrush(charleft);
                 }
             }
@@ -203,7 +203,7 @@ namespace The_game
                 }
                 if (inner == true)
                 {
-                    c.Margin = new Thickness(left + 10, up, 0, 0);
+                    c.Margin = new Thickness(left + 5, up, 0, 0);
                     c.Fill = new ImageBrush(charright);
                 }
             }
