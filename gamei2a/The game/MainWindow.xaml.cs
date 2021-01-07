@@ -197,7 +197,7 @@ namespace The_game
                         c.Margin = new Thickness(w.wallleft - MainWindow.char_width, up, 0, 0);
                     }
                 }
-                if (left + MainWindow.char_width > MainWindow.workinggrid_width)
+                if (left + MainWindow.char_width > MainWindow.workinggrid_width-5)
                 {
                     inner = false;
                 }
