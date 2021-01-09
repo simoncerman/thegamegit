@@ -23,8 +23,6 @@ namespace The_game
     /// 
     public partial class MainWindow : Window
     {
-
-        //workplace
         public class walliind //vlastní class na zaznamenávání pozice wall 
         {
             public int wallleft { get; set; } //levá strana stěny 
@@ -33,7 +31,16 @@ namespace The_game
             public int walldown { get; set; } //dolní strana stěny
             public int eontop { get; set; } //nepřítel typu 1 nad stěnou
         }
-        public static List<walliind> wali = new List<walliind>(); // přidání stěny do listu stěn
+        public static List<walliind> wali = new List<walliind>(); // vytvoření listu stěn
+        //
+        public class enemlog //vlastní class na zaznamenání pozic enemie
+        {
+            public int left { get; set; }
+            public int right { get; set; }
+            public int top { get; set; }
+            public int bottom { get; set; }
+        }
+        public static List<enemlog> enemiesave = new List<enemlog>();
         //
         public static int workinggrid_width = 900; //šířka celého plátna 
         public static int workinggrid_height = 750; //výška celého plátna
@@ -44,9 +51,6 @@ namespace The_game
         wall wall1;
         wall wall2;
         wall wall3;
-        enemie t1;
-        enemie t2;
-        enemie t3;
         DispatcherTimer time = new DispatcherTimer(DispatcherPriority.Render);
 
         public MainWindow()
@@ -75,6 +79,7 @@ namespace The_game
         public static BitmapImage wallimg = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/testwall.png"));
         private void Clock(object sender, EventArgs e)
         {
+            ivan.echeck();
             if (right == true) { ivan.moveright(); }
             if (left == true) { ivan.moveleft(); }
             interval++;
@@ -86,18 +91,18 @@ namespace The_game
             }
             if(spawningtime == 100)
             {
-                enemie t1;
-                t1 = new enemie(1, mriz);
+                EnType1 t1;
+                t1 = new EnType1(mriz);
             }
             if (spawningtime == 500)
             {
-                enemie t2;
-                t2 = new enemie(1, mriz);
+                EnType1 t2;
+                t2 = new EnType1(mriz);
             }
             if (spawningtime == 1000)
             {
-                enemie t3;
-                t3 = new enemie(1, mriz);
+                EnType1 t3;
+                t3 = new EnType1(mriz);
             }
 
         }
@@ -151,32 +156,50 @@ namespace The_game
 
         //main character class 
         class enemie
-        {
-            public enemie(int type, Grid mriz)
+        { 
+            public void destroy()
             {
-                if (type==1)
+
+            }
+            public void elog(int x, int y, int sirka, int vyska)
+            {
+                enemlog save = new enemlog()
                 {
-                    Ellipse e1;
-                    int onecreate = 0; // creat only one in row
-                    e1 = new Ellipse();
-                    e1.Width = 50;
-                    e1.Height = 50;
-                    e1.VerticalAlignment = VerticalAlignment.Top;
-                    e1.HorizontalAlignment = HorizontalAlignment.Left;
-                    e1.Fill = new SolidColorBrush(Colors.Black);
-                    foreach(walliind wall in wali)
+                    left = x,
+                    top = y,
+                    right = x + sirka,
+                    bottom = y + vyska
+
+                };
+                MainWindow.enemiesave.Add(save);
+            }
+        }
+        class EnType1 : enemie
+        {
+            public EnType1(Grid mriz)
+            {
+                Ellipse e1;
+                int onecreate = 0; // creat only one in row
+                e1 = new Ellipse();
+                e1.Width = 50;
+                e1.Height = 50;
+                e1.VerticalAlignment = VerticalAlignment.Top;
+                e1.HorizontalAlignment = HorizontalAlignment.Left;
+                e1.Fill = new SolidColorBrush(Colors.Black);
+                foreach (walliind wall in wali)
+                {
+                    if (wall.eontop == 0 && onecreate == 0)
                     {
-                        if (wall.eontop == 0 && onecreate == 0)
-                        {
-                            onecreate = 1;
-                            wall.eontop = 1;
-                            e1.Margin = new Thickness((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2), wall.wallup - e1.Width - 10, 0, 0);
-                            mriz.Children.Add(e1);
-
-                        }
+                        onecreate = 1;
+                        wall.eontop = 1;
+                        e1.Margin = new Thickness((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2), wall.wallup - e1.Width - 10, 0, 0);
+                        mriz.Children.Add(e1);
+                        int a = Convert.ToInt32((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2));
+                        int b = Convert.ToInt32(wall.wallup - e1.Width - 10);
+                        elog(a, b, Convert.ToInt32(e1.Width),Convert.ToInt32(e1.Height));
                     }
-
                 }
+
             }
         }
         class character
@@ -201,7 +224,10 @@ namespace The_game
                 c.Fill = new ImageBrush(charright);
 
             }
+            public void echeck()
+            {
 
+            }
             public void moveleft()
             {
                 bool inner = true;
