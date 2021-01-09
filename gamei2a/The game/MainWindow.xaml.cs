@@ -25,28 +25,28 @@ namespace The_game
     {
 
         //workplace
-        public class walliind
+        public class walliind //vlastní class na zaznamenávání pozice wall 
         {
-            public int wallleft { get; set; }
-            public int wallright { get; set; }
-            public int wallup { get; set; }
-            public int walldown { get; set; }
+            public int wallleft { get; set; } //levá strana stěny 
+            public int wallright { get; set; } //pravá strana stěny 
+            public int wallup { get; set; } //horní strana stěny
+            public int walldown { get; set; } //dolní strana stěny
+            public int eontop { get; set; } //nepřítel typu 1 nad stěnou
         }
-        public static List<walliind> wali = new List<walliind>();
+        public static List<walliind> wali = new List<walliind>(); // přidání stěny do listu stěn
         //
-        public static int testonly = 0;
-        public static int workinggrid_width = 900;
-        public static int workinggrid_height = 750;
+        public static int workinggrid_width = 900; //šířka celého plátna 
+        public static int workinggrid_height = 750; //výška celého plátna
         //character 
-        public static int char_width = 40;
-        public static int char_height = 90;
-        public static int sup = 5;
-        //wall arrays
-        //
+        public static int char_width = 40; //šířka hráče 
+        public static int char_height = 90; //výška hráče 
         character ivan;
         wall wall1;
         wall wall2;
         wall wall3;
+        enemie t1;
+        enemie t2;
+        enemie t3;
         DispatcherTimer time = new DispatcherTimer(DispatcherPriority.Render);
 
         public MainWindow()
@@ -61,10 +61,12 @@ namespace The_game
             wall1 = new wall(100, 300, 150, 50, mriz);
             wall2 = new wall(600, 300, 150, 50, mriz);
             wall3 = new wall(350, 500, 150, 50, mriz);
+            
             //
 
         }
         int interval = 0;
+        int spawningtime = 0;
         int ts = 500;
         public static int doublejump = 0;
         public static bool right, left, jump;
@@ -76,11 +78,28 @@ namespace The_game
             if (right == true) { ivan.moveright(); }
             if (left == true) { ivan.moveleft(); }
             interval++;
+            spawningtime++;
             if (interval == 1000 / ts)
             {
                 ivan.jumpe(force);
                 interval = 0;
             }
+            if(spawningtime == 100)
+            {
+                enemie t1;
+                t1 = new enemie(1, mriz);
+            }
+            if (spawningtime == 500)
+            {
+                enemie t2;
+                t2 = new enemie(1, mriz);
+            }
+            if (spawningtime == 1000)
+            {
+                enemie t3;
+                t3 = new enemie(1, mriz);
+            }
+
         }
 
         private void KeyDown1(object sender, KeyEventArgs e)
@@ -124,13 +143,42 @@ namespace The_game
                     wallleft = x,
                     wallright = x + sirka,
                     wallup = y,
+                    eontop = 0
                 };
                 MainWindow.wali.Add(save);
             }
         }
 
         //main character class 
+        class enemie
+        {
+            public enemie(int type, Grid mriz)
+            {
+                if (type==1)
+                {
+                    Ellipse e1;
+                    int onecreate = 0; // creat only one in row
+                    e1 = new Ellipse();
+                    e1.Width = 50;
+                    e1.Height = 50;
+                    e1.VerticalAlignment = VerticalAlignment.Top;
+                    e1.HorizontalAlignment = HorizontalAlignment.Left;
+                    e1.Fill = new SolidColorBrush(Colors.Black);
+                    foreach(walliind wall in wali)
+                    {
+                        if (wall.eontop == 0 && onecreate == 0)
+                        {
+                            onecreate = 1;
+                            wall.eontop = 1;
+                            e1.Margin = new Thickness((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2), wall.wallup - e1.Width - 10, 0, 0);
+                            mriz.Children.Add(e1);
 
+                        }
+                    }
+
+                }
+            }
+        }
         class character
         {
             BitmapImage charleft = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigleft.png"));
