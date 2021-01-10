@@ -54,13 +54,18 @@ namespace The_game
         wall wall2;
         wall wall3;
         DispatcherTimer time = new DispatcherTimer(DispatcherPriority.Render);
-
+        scoreboard score;
         public MainWindow()
         {
             InitializeComponent();
             time.Interval = new TimeSpan(0, 0, 0, 0, 1);
             time.Tick += Clock;
+
             time.Start();
+            //score 
+            score = new scoreboard(mriz,800,40);
+
+
             //object creating
             ivan = new character(mriz);
             // stěny ///
@@ -71,7 +76,28 @@ namespace The_game
             //
 
         }
-        public static int _score = 5; 
+        public class scoreboard
+        {
+            public static Label scor;
+            public scoreboard(Grid mriz,int sleft, int stop)
+            {
+                scor = new Label();
+                scor.Content = 0;
+                scor.FontSize = 50;
+                scor.Width = 60;
+                scor.Height = 70;
+                scor.VerticalAlignment = VerticalAlignment.Top;
+                scor.HorizontalAlignment = HorizontalAlignment.Left;
+                scor.Margin = new Thickness(sleft, stop, 0, 0);
+                mriz.Children.Add(scor);
+            }
+            public static void scoreplus(int plus)
+            {
+                string sscoreusing = scor.Content.ToString();
+                int scoreusing = Convert.ToInt32(sscoreusing);
+                scor.Content = scoreusing + plus;
+            }
+        }
         int interval = 0;
         int spawningtime = 0;
         int ts = 500;
@@ -85,6 +111,7 @@ namespace The_game
 
         private void Clock(object sender, EventArgs e)
         {
+
             ivan.echeck(mriz);
             if (right == true) { ivan.moveright(); }
             if (left == true) { ivan.moveleft(); }
@@ -96,7 +123,7 @@ namespace The_game
                 interval = 0;
             }
             if(spawningtime == 100)
-            {
+            { 
                 EnType1 t1;
                 t1 = new EnType1(mriz);
             }
@@ -173,7 +200,10 @@ namespace The_game
                     double y = ui.Margin.Top;
                     if (ix == x && y==yp)
                     {
+                        itemstoremove.Remove(ui);
                         mriz.Children.Remove(ui);
+                        scoreboard.scoreplus(1);
+                        break;
                     }
                 }
             }
@@ -213,8 +243,8 @@ namespace The_game
                         int b = Convert.ToInt32(wall.wallup - e1.Width - 10);
                         elog(a, b, Convert.ToInt32(e1.Width),Convert.ToInt32(e1.Height));
                         itemstoremove.Add(e1);
-                        MainWindow._score += 1;
-                        
+
+
                     }
                 }
 
@@ -240,8 +270,6 @@ namespace The_game
                 c.Margin = new Thickness(50, /*MainWindow.workinggrid_height - MainWindow.char_height*/100, 0, 0);
                 mriz.Children.Add(c);
                 c.Fill = new ImageBrush(charright);
-                
-
             }
             public void echeck(Grid mriz)
             {
@@ -251,7 +279,9 @@ namespace The_game
                 {
                     if (left + MainWindow.char_width > gay.left && up + MainWindow.char_height > gay.top && left < gay.right && up < gay.bottom)
                     {
-                        enemy.destroy(mriz,gay);
+                        enemy.destroy(mriz, gay);
+                        enemiesave.Remove(gay);
+                        break;
                     }
                 }
             }
@@ -341,7 +371,6 @@ namespace The_game
                         force = 0;
                         MainWindow.force = 0;
                     }
-
                 }
                 if (up < 0)
                 {
