@@ -39,6 +39,7 @@ namespace The_game
             public int right { get; set; }
             public int top { get; set; }
             public int bottom { get; set; }
+            
         }
         public static List<enemlog> enemiesave = new List<enemlog>();
         //
@@ -77,9 +78,12 @@ namespace The_game
         int gravity = 30;
         public static int force = 0;
         public static BitmapImage wallimg = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/testwall.png"));
+
+        public static List<UIElement> itemstoremove = new List<UIElement>();
+
         private void Clock(object sender, EventArgs e)
         {
-            ivan.echeck();
+            ivan.echeck(mriz);
             if (right == true) { ivan.moveright(); }
             if (left == true) { ivan.moveleft(); }
             interval++;
@@ -155,11 +159,21 @@ namespace The_game
         }
 
         //main character class 
-        class enemie
-        { 
-            public void destroy()
+        public class enemie
+        {
+            public static void destroy(Grid mriz,enemlog gay)
             {
-
+                int ix = gay.left;
+                int yp = gay.top;
+                foreach(FrameworkElement ui in itemstoremove)
+                {
+                    double x = ui.Margin.Left;
+                    double y = ui.Margin.Top;
+                    if (ix == x && y==yp)
+                    {
+                        mriz.Children.Remove(ui);
+                    }
+                }
             }
             public void elog(int x, int y, int sirka, int vyska)
             {
@@ -169,13 +183,13 @@ namespace The_game
                     top = y,
                     right = x + sirka,
                     bottom = y + vyska
-
                 };
                 MainWindow.enemiesave.Add(save);
             }
         }
-        class EnType1 : enemie
+        public class EnType1 : enemie
         {
+            EnType1[] enTypes;
             public EnType1(Grid mriz)
             {
                 Ellipse e1;
@@ -197,6 +211,8 @@ namespace The_game
                         int a = Convert.ToInt32((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2));
                         int b = Convert.ToInt32(wall.wallup - e1.Width - 10);
                         elog(a, b, Convert.ToInt32(e1.Width),Convert.ToInt32(e1.Height));
+                        itemstoremove.Add(e1);
+                        
                     }
                 }
 
@@ -222,11 +238,20 @@ namespace The_game
                 c.Margin = new Thickness(50, /*MainWindow.workinggrid_height - MainWindow.char_height*/100, 0, 0);
                 mriz.Children.Add(c);
                 c.Fill = new ImageBrush(charright);
+                
 
             }
-            public void echeck()
+            public void echeck(Grid mriz)
             {
-
+                int left = Convert.ToInt32(c.Margin.Left);
+                int up = Convert.ToInt32(c.Margin.Top);
+                foreach (enemlog gay in enemiesave)
+                {
+                    if (left + MainWindow.char_width > gay.left && up + MainWindow.char_height > gay.top && left < gay.right && up < gay.bottom)
+                    {
+                        enemie.destroy(mriz,gay);
+                    }
+                }
             }
             public void moveleft()
             {
