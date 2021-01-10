@@ -23,6 +23,7 @@ namespace The_game
     /// 
     public partial class MainWindow : Window
     {
+        
         public class walliind //vlastní class na zaznamenávání pozice wall 
         {
             public int wallleft { get; set; } //levá strana stěny 
@@ -70,6 +71,7 @@ namespace The_game
             //
 
         }
+        public static int _score = 5; 
         int interval = 0;
         int spawningtime = 0;
         int ts = 500;
@@ -78,7 +80,7 @@ namespace The_game
         int gravity = 30;
         public static int force = 0;
         public static BitmapImage wallimg = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/testwall.png"));
-
+        
         public static List<UIElement> itemstoremove = new List<UIElement>();
 
         private void Clock(object sender, EventArgs e)
@@ -159,7 +161,7 @@ namespace The_game
         }
 
         //main character class 
-        public class enemie
+        public class enemy
         {
             public static void destroy(Grid mriz,enemlog gay)
             {
@@ -187,9 +189,8 @@ namespace The_game
                 MainWindow.enemiesave.Add(save);
             }
         }
-        public class EnType1 : enemie
+        public class EnType1 : enemy
         {
-            EnType1[] enTypes;
             public EnType1(Grid mriz)
             {
                 Ellipse e1;
@@ -212,6 +213,7 @@ namespace The_game
                         int b = Convert.ToInt32(wall.wallup - e1.Width - 10);
                         elog(a, b, Convert.ToInt32(e1.Width),Convert.ToInt32(e1.Height));
                         itemstoremove.Add(e1);
+                        MainWindow._score += 1;
                         
                     }
                 }
@@ -249,7 +251,7 @@ namespace The_game
                 {
                     if (left + MainWindow.char_width > gay.left && up + MainWindow.char_height > gay.top && left < gay.right && up < gay.bottom)
                     {
-                        enemie.destroy(mriz,gay);
+                        enemy.destroy(mriz,gay);
                     }
                 }
             }
