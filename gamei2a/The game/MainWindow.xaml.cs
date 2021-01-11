@@ -412,7 +412,7 @@ namespace The_game
                 }
 
                 //provedení akcí -_-
-                //Pokud jsme v prostoru a pod námi není nic
+                //Pokud jsme v prostoru a pod námi není nic 
 
 
 
