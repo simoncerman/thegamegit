@@ -40,6 +40,8 @@ namespace The_game
             public int right { get; set; }
             public int top { get; set; }
             public int bottom { get; set; }
+            public int wl { get; set; }
+            public int wt { get; set; }
 
         }
         public static List<enemlog> enemiesave = new List<enemlog>();
@@ -63,7 +65,7 @@ namespace The_game
 
             time.Start();
             //score 
-            score = new scoreboard(mriz, 800, 40);
+            score = new scoreboard(mriz, 700, 40);
 
 
             //object creating
@@ -84,7 +86,7 @@ namespace The_game
                 scor = new Label();
                 scor.Content = 0;
                 scor.FontSize = 50;
-                scor.Width = 60;
+                scor.Width = 120;
                 scor.Height = 70;
                 scor.VerticalAlignment = VerticalAlignment.Top;
                 scor.HorizontalAlignment = HorizontalAlignment.Left;
@@ -98,9 +100,9 @@ namespace The_game
                 scor.Content = scoreusing + plus;
             }
         }
+        int ts = 500;
         int interval = 0;
         int spawningtime = 0;
-        int ts = 500;
         public static int doublejump = 0;
         public static bool right, left, jump;
         int gravity = 30;
@@ -122,12 +124,13 @@ namespace The_game
                 ivan.jumpe(force);
                 interval = 0;
             }
-            if (spawningtime == 100)
+            if (spawningtime == 150)
             {
                 EnType1 t1;
                 t1 = new EnType1(mriz);
+                spawningtime = 0;
             }
-            if (spawningtime == 500)
+            /*if (spawningtime == 500)
             {
                 EnType1 t2;
                 t2 = new EnType1(mriz);
@@ -136,7 +139,7 @@ namespace The_game
             {
                 EnType1 t3;
                 t3 = new EnType1(mriz);
-            }
+            }*/
 
         }
 
@@ -200,6 +203,13 @@ namespace The_game
                     double y = ui.Margin.Top;
                     if (ix == x && y == yp)
                     {
+                        foreach(walliind w in wali)
+                        {
+                            if (w.wallleft == gay.wl && w.wallup == gay.wt)
+                            {
+                                w.eontop = 0;
+                            }
+                        }
                         itemstoremove.Remove(ui);
                         mriz.Children.Remove(ui);
                         scoreboard.scoreplus(1);
@@ -207,14 +217,16 @@ namespace The_game
                     }
                 }
             }
-            public void elog(int x, int y, int sirka, int vyska)
+            public void elog(int x, int y, int sirka, int vyska, int wll, int wtt)
             {
                 enemlog save = new enemlog()
                 {
                     left = x,
                     top = y,
                     right = x + sirka,
-                    bottom = y + vyska
+                    bottom = y + vyska,
+                    wl = wll, //wall of enemie spawn left 
+                    wt = wtt, // -||- top
                 };
                 MainWindow.enemiesave.Add(save);
             }
@@ -241,10 +253,8 @@ namespace The_game
                         mriz.Children.Add(e1);
                         int a = Convert.ToInt32((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2));
                         int b = Convert.ToInt32(wall.wallup - e1.Width - 10);
-                        elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height));
+                        elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height),wall.wallleft,wall.wallup);
                         itemstoremove.Add(e1);
-
-
                     }
                 }
 
