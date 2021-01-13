@@ -49,8 +49,8 @@ namespace The_game
         public static int workinggrid_width = 900; //šířka celého plátna 
         public static int workinggrid_height = 750; //výška celého plátna
         //character 
-        public static int char_width = 40; //šířka hráče 
-        public static int char_height = 90; //výška hráče 
+        public static int char_width = 80; //šířka hráče 
+        public static int char_height = 80; //výška hráče 
         character ivan;
         wall wall1;
         wall wall2;
@@ -203,7 +203,7 @@ namespace The_game
                     double y = ui.Margin.Top;
                     if (ix == x && y == yp)
                     {
-                        foreach(walliind w in wali)
+                        foreach (walliind w in wali)
                         {
                             if (w.wallleft == gay.wl && w.wallup == gay.wt)
                             {
@@ -235,6 +235,7 @@ namespace The_game
         {
             public EnType1(Grid mriz)
             {
+                BitmapImage point = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/bloodcoin.png"));
                 Ellipse e1;
                 int onecreate = 0; // creat only one in row
                 e1 = new Ellipse();
@@ -249,11 +250,12 @@ namespace The_game
                     {
                         onecreate = 1;
                         wall.eontop = 1;
+                        e1.Fill = new ImageBrush(point);
                         e1.Margin = new Thickness((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2), wall.wallup - e1.Width - 10, 0, 0);
                         mriz.Children.Add(e1);
                         int a = Convert.ToInt32((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2));
                         int b = Convert.ToInt32(wall.wallup - e1.Width - 10);
-                        elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height),wall.wallleft,wall.wallup);
+                        elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height), wall.wallleft, wall.wallup);
                         itemstoremove.Add(e1);
                     }
                 }
@@ -262,8 +264,8 @@ namespace The_game
         }
         class character
         {
-            BitmapImage charleft = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigleft.png"));
-            BitmapImage charright = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/characterpicrigright.png"));
+            BitmapImage charleft = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/charleft.png"));
+            BitmapImage charright = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/charright.png"));
             Rectangle c;
             public character(Grid mriz)
             {
