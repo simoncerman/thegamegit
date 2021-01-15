@@ -58,7 +58,7 @@ namespace The_game
         DispatcherTimer time = new DispatcherTimer(DispatcherPriority.Render);
         scoreboard score;
         public MainWindow()
-        {
+        { 
             InitializeComponent();
             time.Interval = new TimeSpan(0, 0, 0, 0, 1);
             time.Tick += Clock;
@@ -130,17 +130,6 @@ namespace The_game
                 t1 = new EnType1(mriz);
                 spawningtime = 0;
             }
-            /*if (spawningtime == 500)
-            {
-                EnType1 t2;
-                t2 = new EnType1(mriz);
-            }
-            if (spawningtime == 1000)
-            {
-                EnType1 t3;
-                t3 = new EnType1(mriz);
-            }*/
-
         }
 
         private void KeyDown1(object sender, KeyEventArgs e)
@@ -151,6 +140,11 @@ namespace The_game
             {
                 doublejump += 1;
                 MainWindow.force = gravity;
+            }
+            if (e.Key == Key.F)
+            {
+                bullet b;
+                b = new bullet(mriz);
             }
         }
         private void KeyUp1(object sender, KeyEventArgs e)
@@ -261,9 +255,56 @@ namespace The_game
                 }
 
             }
+            
+        }
+        public class EnType2 : enemy
+        {
+            public EnType2(Grid mriz)
+            {
+                Rectangle e2;
+                int onecreate = 0;
+                e2 = new Rectangle();
+                e2.Width = 40;
+                e2.Height = 90;
+                e2.HorizontalAlignment = HorizontalAlignment.Left;
+                e2.VerticalAlignment = VerticalAlignment.Top;
+                e2.Fill = new SolidColorBrush(Colors.Violet);
+                foreach (walliind wall in wali)
+                {
+                    if (wall.eontop == 0 && onecreate == 0)
+                    {
+                        onecreate = 1;
+                        wall.eontop = 1;
+                        e2.Margin = new Thickness((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e2.Width / 2), wall.wallup - e2.Width - 10, 0, 0);
+                        mriz.Children.Add(e2);
+                        int a = Convert.ToInt32((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e2.Width / 2));
+                        int b = Convert.ToInt32(wall.wallup - e2.Width - 10);
+                        elog(a, b, Convert.ToInt32(e2.Width), Convert.ToInt32(e2.Height), wall.wallleft, wall.wallup);
+                        itemstoremove.Add(e2);
+                    }
+                }
+            }
+        }
+        class bullet
+        {
+            Rectangle bul;
+            public bullet(Grid mriz)
+            {
+                bul = new Rectangle();
+                bul.Width = 10;
+                bul.Height = 2;
+                bul.Fill = new SolidColorBrush(Colors.Red);
+                bul.VerticalAlignment = VerticalAlignment.Top;
+                bul.HorizontalAlignment = HorizontalAlignment.Left;
+                bul.Margin = new Thickness(character.charposleft+20,character.charposttop+40,0,0);
+                mriz.Children.Add(bul);
+            }
         }
         class character
         {
+            public static bool charonright = true;
+            public static int charposleft = 0;
+            public static int charposttop =0;
             BitmapImage charleft = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/charleft.png"));
             BitmapImage charright = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/charright.png"));
             Rectangle c;
@@ -316,9 +357,13 @@ namespace The_game
                 }
                 if (inner == true)
                 {
+                    charonright = false;
                     c.Margin = new Thickness(left - 5, up, 0, 0);
                     c.Fill = new ImageBrush(charleft);
                 }
+                charposleft = Convert.ToInt32(c.Margin.Left);
+                charposttop = Convert.ToInt32(c.Margin.Top);
+
             }
             public void moveright()
             {
@@ -339,9 +384,12 @@ namespace The_game
                 }
                 if (inner == true)
                 {
+                    charonright = true;
                     c.Margin = new Thickness(left + 5, up, 0, 0);
                     c.Fill = new ImageBrush(charright);
                 }
+                charposleft = Convert.ToInt32(c.Margin.Left);
+                charposttop = Convert.ToInt32(c.Margin.Top);
             }
             public void jumpe(int force)
             {
@@ -422,7 +470,8 @@ namespace The_game
                     c.Margin = new Thickness(left, up - force, 0, 0);
                     Debug.WriteLine(force);
                 }
-
+                charposleft = Convert.ToInt32(c.Margin.Left);
+                charposttop = Convert.ToInt32(c.Margin.Top);
                 //provedení akcí -_-
                 //Pokud jsme v prostoru a pod námi není nic 
 
