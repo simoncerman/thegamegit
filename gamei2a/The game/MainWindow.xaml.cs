@@ -23,7 +23,6 @@ namespace The_game
     /// 
     public partial class MainWindow : Window
     {
-
         public class walliind //vlastní class na zaznamenávání pozice wall 
         {
             public int wallleft { get; set; } //levá strana stěny 
@@ -45,6 +44,15 @@ namespace The_game
 
         }
         public static List<enemlog> enemiesave = new List<enemlog>();
+        public class buletinf
+        {
+            public int left { get; set; }
+            public int top { get; set; }
+            public bool side { get; set; }
+            public FrameworkElement el { get; set; }
+            public UIElement ue { get; set; }
+        }
+        public static List<buletinf> bulletlog = new List<buletinf>();
         //
         public static int workinggrid_width = 900; //šířka celého plátna 
         public static int workinggrid_height = 750; //výška celého plátna
@@ -130,6 +138,7 @@ namespace The_game
                 t1 = new EnType1(mriz);
                 spawningtime = 0;
             }
+            bullet.bulletchange(mriz);
         }
 
         private void KeyDown1(object sender, KeyEventArgs e)
@@ -287,7 +296,7 @@ namespace The_game
         }
         class bullet
         {
-            Rectangle bul;
+            public Rectangle bul;
             public bullet(Grid mriz)
             {
                 bul = new Rectangle();
@@ -298,6 +307,32 @@ namespace The_game
                 bul.HorizontalAlignment = HorizontalAlignment.Left;
                 bul.Margin = new Thickness(character.charposleft+20,character.charposttop+40,0,0);
                 mriz.Children.Add(bul);
+                buletinf bullet = new buletinf
+                {
+                    left = Convert.ToInt32(bul.Margin.Left),
+                    top = Convert.ToInt32(bul.Margin.Top),
+                    side = character.charonright,
+                    ue = bul,
+                    el = bul
+                };
+                bulletlog.Add(bullet);
+            }
+            public static void bulletchange(Grid mriz)
+            {
+                foreach (buletinf bullet in bulletlog)
+                {
+                    FrameworkElement save = bullet.el;
+                    mriz.Children.Remove(bullet.el);
+                    if (bullet.side == true)
+                    {
+                        save.Margin = new Thickness(save.Margin.Left + 5,save.Margin.Top,0,0);
+                    }
+                    if (bullet.side == false)
+                    {
+                        save.Margin = new Thickness(save.Margin.Left - 5, save.Margin.Top, 0, 0);
+                    }
+                    mriz.Children.Add(save);
+                }
             }
         }
         class character
