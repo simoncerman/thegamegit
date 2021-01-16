@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="cs-cz">
+	<head>
+		<meta charset="utf-8">
+    	<title>The Game</title>
+    	<style type="text/css">
+    		html{
+	scroll-behavior: smooth;
+}
+body{
+	margin: 0px;
+}
+p{
+	margin-block-start:0em;
+	margin-block-end:0em;
+	font-family: 'Roboto',sans-serif;
+	margin-left: 60px;
+	color: #66FCF1;
+}
+h2{
+	font-family: 'Roboto',sans-serif;
+}
+.main{
+	height: 1400px;
+	background-color: #222629;
+}
+.smalltxt{
+	text-align: center;
+	margin-left: 0px;
+	margin-top:-200px;
+	margin-bottom: 50px;
+}
+.main_title{
+	padding: 200px 0;
+	color: white;
+	text-align: center;
+	font-weight: 600;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 80px;
+	font-family: 'Roboto',sans-serif;
+}
+.fullwidth{
+	width: 100%;
+	height: 800px;
+	background-color: #222629;
+}
+.fullwidth p{
+
+	font-size: 20px;
+	color: white;
+	padding: 5px 0;
+}
+.firs{
+}
+.first_inner_left{
+	float: left;
+	width: 50%;
+	overflow: hidden;
+	background-color:black;
+}
+.first_inner_right{
+	float:  right;
+	width: 50%;
+	overflow: hidden;
+	background-color: yellow;
+}
+.button {
+	font-weight: 500;
+	font-family: 'Roboto',sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+  	padding: 20px 0;
+  	width: 200px;
+  	height: 40px;
+  	border-style: solid;
+	border-width: thin;
+  	border-color: #618930;
+  	background-color: #618930;
+  	color: white;
+  	text-align: center;
+  	text-decoration: none;
+  	display: block;
+  	font-size: 30px;
+  	transition-property: transform;
+  	transition-duration: 1s;
+  	background: linear-gradient(to left, #222629 50%, #618930 50%) right;
+    background-size: 200%;
+    transition: .5s ease-out;
+}
+.button:hover{
+	background-position: left;
+	color: white;
+}
+.buttholder{
+	height: 600px;
+}
+.leftblock{
+	float: left;
+	width: 800px;
+	height: 600px;
+	margin-left: 90px;
+}
+.rightblock{
+	float: right;
+	width: 800px;
+	margin-right: 90px;
+}
+.rightblock p{
+	padding: 5px 0;
+	text-transform: none;
+	margin-bottom: 0px;
+
+}
+.rightblock p:hover{
+	color: white;
+}
+.inner_rightblock{
+	border-radius: 50px;
+	margin-top: 30px;
+	padding: 20px;
+
+	background: linear-gradient(to left, #222629 50%, #618930 50%) right;
+    background-size: 200%;
+    transition: .5s ease-out;
+}
+.inner_rightblock:hover{
+	background-position: left;
+	border-radius: 50px;
+	color: white;
+
+	 background-position: left;
+}
+    	</style>
+	</head>
+	<body>
+		<div class="main">
+			<p class="main_title">THE GAME</p>
+			<p class="smalltxt"> Something like "Readme file informations"</p>
+			<div class="buttholder">
+				<a class="button" href="#scroll">Click to scroll</a>
+			</div>
+		<div id="scroll" class="fullwidth"> 
+			<div class="leftblock">
+				<div class="inner_rightblock">
+					<h2>Game Info</h2>
+					<p>Hra byla vyvíjena ve dne, v noci pod nátlakem paní učitelky Hamanové.</p>
+					<p>Psal se rok 2021 a na poslední chvíli byla hra odeslána (2 dny před deadline hihi).</p>
+					<p>Šimon čekajíc na velkou várku kritiky začal rozmýšlet, kam bude hra směřovat.</p>
+					<p>Jelikož hru dělá tak, aby mohl v druhém pololetí hru vylepšit, tak nemá nervíky.</p>
+					<p>Mnohem větší bobky však má z učitelek Bílkové a Augustinové a z toho co jejich sluníčkem prozářený den přinese příště.</p>
+				</div>
+			</div>
+			<div class="rightblock">
+				<div class="inner_rightblock">
+					<h2>Game Control</h2>
+					<p> - <strong>Basic Movement</strong> -</p>
+					<p> A / Left arrow - Pohyb doleva </p>
+					<p> D / Right arrow - Pohyb doprava</p>
+					<p> Space (Mezerník) - Skok</p>
+					<p> Mouse LeftClik / F - Střelba</p>
+				</div>
+
+			</div>
+		</div>
+
+	</body>
+</html>
