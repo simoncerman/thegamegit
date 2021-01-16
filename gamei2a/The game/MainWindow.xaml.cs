@@ -30,6 +30,7 @@ namespace The_game
             public int wallup { get; set; } //horní strana stěny
             public int walldown { get; set; } //dolní strana stěny
             public int eontop { get; set; } //nepřítel typu 1 nad stěnou
+            public bool wasontop { get; set; } // zaznamenání pozice kde se spawnul nepřítel
         }
         public static List<walliind> wali = new List<walliind>(); // vytvoření listu stěn
         //
@@ -193,7 +194,8 @@ namespace The_game
                     wallleft = x,
                     wallright = x + sirka,
                     wallup = y,
-                    eontop = 0
+                    eontop = 0,
+                    wasontop = false
                 };
                 MainWindow.wali.Add(save);
             }
@@ -202,6 +204,7 @@ namespace The_game
         //main character class 
         public class enemy
         {
+            public static int destroycount = 0;
             public static void destroy(Grid mriz, enemlog gay)
             {
                 int ix = gay.left;
@@ -222,6 +225,7 @@ namespace The_game
                         itemstoremove.Remove(ui);
                         mriz.Children.Remove(ui);
                         scoreboard.scoreplus(1);
+                        destroycount++;
                         break;
                     }
                 }
@@ -244,6 +248,7 @@ namespace The_game
         {
             public EnType1(Grid mriz)
             {
+                int ontruetest = 0;
                 BitmapImage point = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/en1.png"));
                 Rectangle e1;
                 int onecreate = 0; // creat only one in row
@@ -255,8 +260,9 @@ namespace The_game
                 e1.Fill = new SolidColorBrush(Colors.Black);
                 foreach (walliind wall in wali)
                 {
-                    if (wall.eontop == 0 && onecreate == 0)
+                    if (wall.eontop == 0 && onecreate == 0 && wall.wasontop == false)
                     {
+                        wall.wasontop = true;
                         onecreate = 1;
                         wall.eontop = 1;
                         e1.Fill = new ImageBrush(point);
@@ -266,6 +272,22 @@ namespace The_game
                         int b = Convert.ToInt32(wall.wallup - e1.Height);
                         elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height), wall.wallleft, wall.wallup);
                         itemstoremove.Add(e1);
+                    }
+                    
+                }
+                foreach (walliind walii in wali)
+                {
+                    if (walii.wasontop == true)
+                    {
+                        ontruetest++;
+                    }
+                }
+                if (ontruetest==3)
+                {
+                    foreach(walliind walis in wali)
+                    {
+                        walis.wasontop = false;
+                        ontruetest = 0;
                     }
                 }
 
@@ -330,7 +352,7 @@ namespace The_game
                 foreach (buletinf bullet in bulletlog)
                 {
                     FrameworkElement save = bullet.el;
-                    if (save.Margin.Left<0 || save.Margin.Right>MainWindow.workinggrid_width)
+                    if (save.Margin.Left<0 || save.Margin.Left>MainWindow.workinggrid_width)
                     {
                         mriz.Children.Remove(save);
                     }
