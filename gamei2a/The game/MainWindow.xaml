@@ -5,6 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:The_game"
         mc:Ignorable="d"
-        Title="MainWindow" KeyDown="KeyDown1" KeyUp="KeyUp1" Width="1000" Height="800">
+        Title="MainWindow" KeyDown="KeyDown1" KeyUp="KeyUp1" Width="1000" Height="800" MouseLeftButtonDown="mousemainclick">
     <Grid x:Name="mriz" Width="900" Height="756" Margin="0,0,45,0" Background="#FFF1EBEB"/>
 </Window>

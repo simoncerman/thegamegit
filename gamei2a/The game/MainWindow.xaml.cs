@@ -140,11 +140,15 @@ namespace The_game
             }
             bullet.bulletchange(mriz);
         }
-
+        private void mousemainclick(object sender, MouseButtonEventArgs e)
+        {
+                bullet b;
+                b = new bullet(mriz);
+        }
         private void KeyDown1(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Right) { right = true; }
-            if (e.Key == Key.Left) { left = true; }
+            if (e.Key == Key.Right || e.Key == Key.D) { right = true; }
+            if (e.Key == Key.Left || e.Key == Key.A) { left = true; }
             if (e.Key == Key.Space && doublejump < 1)
             {
                 doublejump += 1;
@@ -158,8 +162,8 @@ namespace The_game
         }
         private void KeyUp1(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Right) { right = false; }
-            if (e.Key == Key.Left) { left = false; }
+            if (e.Key == Key.Right || e.Key == Key.D) { right = false; }
+            if (e.Key == Key.Left || e.Key == Key.A) { left = false; }
         }
         // main wall class (class for making wall omegalul)
         class wall
@@ -294,6 +298,8 @@ namespace The_game
                 }
             }
         }
+
+
         class bullet
         {
             public Rectangle bul;
