@@ -122,7 +122,7 @@ namespace The_game
         private void Clock(object sender, EventArgs e)
         {
 
-            ivan.echeck(mriz);
+            //ivan.echeck(mriz); - sběr bonus point
             if (right == true) { ivan.moveright(); }
             if (left == true) { ivan.moveleft(); }
             interval++;
@@ -238,12 +238,12 @@ namespace The_game
         {
             public EnType1(Grid mriz)
             {
-                BitmapImage point = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/bloodcoin.png"));
-                Ellipse e1;
+                BitmapImage point = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/en1.png"));
+                Rectangle e1;
                 int onecreate = 0; // creat only one in row
-                e1 = new Ellipse();
-                e1.Width = 50;
-                e1.Height = 50;
+                e1 = new Rectangle();
+                e1.Width = 40;
+                e1.Height = 70;
                 e1.VerticalAlignment = VerticalAlignment.Top;
                 e1.HorizontalAlignment = HorizontalAlignment.Left;
                 e1.Fill = new SolidColorBrush(Colors.Black);
@@ -254,10 +254,10 @@ namespace The_game
                         onecreate = 1;
                         wall.eontop = 1;
                         e1.Fill = new ImageBrush(point);
-                        e1.Margin = new Thickness((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2), wall.wallup - e1.Width - 10, 0, 0);
+                        e1.Margin = new Thickness((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2), wall.wallup - e1.Height, 0, 0);
                         mriz.Children.Add(e1);
                         int a = Convert.ToInt32((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2));
-                        int b = Convert.ToInt32(wall.wallup - e1.Width - 10);
+                        int b = Convert.ToInt32(wall.wallup - e1.Height);
                         elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height), wall.wallleft, wall.wallup);
                         itemstoremove.Add(e1);
                     }
@@ -322,16 +322,39 @@ namespace The_game
                 foreach (buletinf bullet in bulletlog)
                 {
                     FrameworkElement save = bullet.el;
-                    mriz.Children.Remove(bullet.el);
-                    if (bullet.side == true)
+                    if (save.Margin.Left<0 || save.Margin.Right>MainWindow.workinggrid_width)
                     {
-                        save.Margin = new Thickness(save.Margin.Left + 5,save.Margin.Top,0,0);
+                        mriz.Children.Remove(save);
                     }
-                    if (bullet.side == false)
+                    else
                     {
-                        save.Margin = new Thickness(save.Margin.Left - 5, save.Margin.Top, 0, 0);
+                        mriz.Children.Remove(bullet.el);
+                        if (bullet.side == true)
+                        {
+                            save.Margin = new Thickness(save.Margin.Left + 10, save.Margin.Top, 0, 0);
+                            bullet.left = Convert.ToInt32(save.Margin.Left);
+                        }
+                        if (bullet.side == false)
+                        {
+                            bullet.left = Convert.ToInt32(save.Margin.Left);
+                            save.Margin = new Thickness(save.Margin.Left - 10, save.Margin.Top, 0, 0);
+                        }
+                        mriz.Children.Add(save);
+
+                        foreach (enemlog gay in enemiesave)
+                        {
+                            if (bullet.left + bullet.el.Width > gay.left &&
+                                bullet.top + bullet.el.Height > gay.top &&
+                                bullet.left < gay.right &&
+                                bullet.top < gay.bottom)
+                            {
+                                enemy.destroy(mriz, gay);
+                                enemiesave.Remove(gay);
+                                break;
+                            }
+                        }
                     }
-                    mriz.Children.Add(save);
+
                 }
             }
         }
