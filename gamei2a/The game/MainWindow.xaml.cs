@@ -53,7 +53,8 @@ namespace The_game
             public UIElement ue { get; set; }
         }
         public static List<buletinf> bulletlog = new List<buletinf>();
-        //
+
+        //grid info
         public static int workinggrid_width = 900; //šířka celého plátna 
         public static int workinggrid_height = 750; //výška celého plátna
         //character 
@@ -108,6 +109,7 @@ namespace The_game
                 scor.Content = scoreusing + plus;
             }
         }
+        public static int go_down_speed = 3;
         int ts = 500;
         int interval = 0;
         int spawningtime = 0;
@@ -529,8 +531,8 @@ namespace The_game
                 }
                 if (borderondown == false && borderontop == false && objectondown == false)
                 {
-                    MainWindow.force = MainWindow.force - 3;
-                    force = force - 3;
+                    MainWindow.force = MainWindow.force - MainWindow.go_down_speed;
+                    force = force - MainWindow.go_down_speed;
                     c.Margin = new Thickness(left, up - force, 0, 0);
                     Debug.WriteLine(force);
                 }
