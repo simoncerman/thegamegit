@@ -21,62 +21,63 @@ namespace The_game
     /// Interakční logika pro MainWindow.xaml
     /// </summary>
     /// 
-    public class Walliind
+    public class Walliind // for log of walls
     {
         public int Wallleft { get; set; }
         public int Wallright { get; set; }
         public int Wallup { get; set; }
         public int Walldown { get; set; }
-        public int Eontop { get; set; }
-        public bool Wasontop { get; set; }
+        public int Eontop { get; set; } //enemy on top
+        public bool Wasontop { get; set; } //enemy was top - helpful bool
     }
-    public class Enemlog
+    public class Enemlog // for log of enemy
     {
-        public int Left { get; set; }
+        public int Left { get; set; } 
         public int Right { get; set; }
         public int Top { get; set; }
         public int Bottom { get; set; }
-        public int Wl { get; set; }
-        public int Wt { get; set; }
+        public int Wl { get; set; } // left of wall where enemy stand
+        public int Wt { get; set; } // right of wall where eneym stand
     }
-    public class Buletinf
+    public class Buletinf // for bullet tracking 
     {
         public int Left { get; set; }
         public int Top { get; set; }
-        public bool Side { get; set; }
-        public FrameworkElement El { get; set; }
-        public UIElement Ue { get; set; }
+        public bool Side { get; set; } //side (left / right) -> ((if true -> go right/ if false -> go left))
+        public FrameworkElement El { get; set; } //saving bullet as element
+        public UIElement Ue { get; set; } //the same  -||-
     }
     public partial class MainWindow : Window
     {
-        public static int workinggrid_width = 900;
-        public static int workinggrid_height = 750;
-        private readonly Character ivan;
-        readonly DispatcherTimer time = new DispatcherTimer(DispatcherPriority.Render);
+        public static int workinggrid_width = 900; // not changing - for reading (mainly for character -> will be used for enemy too)
+        public static int workinggrid_height = 750; // -||-
+        private readonly Character ivan; // main character 
+        readonly DispatcherTimer time = new DispatcherTimer(DispatcherPriority.Render); // buging if no Dispa.ity.Render 
         public MainWindow()
         {
             InitializeComponent();
             Scoreboard score;
-            Wall wall1;
-            Wall wall2;
-            Wall wall3;
             time.Interval = new TimeSpan(0, 0, 0, 0, 1);
             time.Tick += Clock;
             time.Start();
-            score = new Scoreboard(mriz, 700, 40);
-            ivan = new Character(mriz);
+            score = new Scoreboard(mriz, 700, 40); //score with x and y
+            ivan = new Character(mriz); //creating character
+            /* wall creating*/
+            Wall wall1;
+            Wall wall2;
+            Wall wall3;
             wall1 = new Wall(100, 300, 150, 50, mriz);
             wall2 = new Wall(600, 300, 150, 50, mriz);
             wall3 = new Wall(350, 500, 150, 50, mriz);
         }
-        readonly int ts = 500;
-        int interval = 0;
-        int spawningtime = 0;
-        public static int doublejump = 0;
-        public static bool right, left, jump;
-        readonly int gravity = 30;
-        public static int force = 0;
-        private void Clock(object sender, EventArgs e)
+        readonly int ts = 500; //time when funcion jump is called
+        int interval = 0; //using for timing of jump  - must be 0 -> every round +1 (every milisec)
+        int spawningtime = 0; // same like interval -> used for enemies
+        public static int doublejump = 0; //is used for doublejump -_-
+        public static bool right, left, jump; //some bools maybe used in time more
+        readonly int gravity = 30; //acualy not gravity but jump-up force - its like anti-gravity
+        public static int force = 0; //changing when (jump - Increase / fall - Decrease)
+        private void Clock(object sender, EventArgs e) //clasic timing thing
         {
             if (right == true) { ivan.Moveright(); }
             if (left == true) { ivan.Moveleft(); }
