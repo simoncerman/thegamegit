@@ -21,68 +21,54 @@ namespace The_game
     /// Interakční logika pro MainWindow.xaml
     /// </summary>
     /// 
-    public class walliind //vlastní class na zaznamenávání pozice wall 
+    public class Walliind
     {
-        public int wallleft { get; set; } //levá strana stěny 
-        public int wallright { get; set; } //pravá strana stěny 
-        public int wallup { get; set; } //horní strana stěny
-        public int walldown { get; set; } //dolní strana stěny
-        public int eontop { get; set; } //nepřítel typu 1 nad stěnou
-        public bool wasontop { get; set; } // zaznamenání pozice kde se spawnul nepřítel
+        public int Wallleft { get; set; }
+        public int Wallright { get; set; }
+        public int Wallup { get; set; }
+        public int Walldown { get; set; }
+        public int Eontop { get; set; }
+        public bool Wasontop { get; set; }
     }
-    public class enemlog //vlastní class na zaznamenání pozic enemie
+    public class Enemlog
     {
-        public int left { get; set; }
-        public int right { get; set; }
-        public int top { get; set; }
-        public int bottom { get; set; }
-        public int wl { get; set; }
-        public int wt { get; set; }
+        public int Left { get; set; }
+        public int Right { get; set; }
+        public int Top { get; set; }
+        public int Bottom { get; set; }
+        public int Wl { get; set; }
+        public int Wt { get; set; }
     }
-    public class buletinf
+    public class Buletinf
     {
-        public int left { get; set; }
-        public int top { get; set; }
-        public bool side { get; set; }
-        public FrameworkElement el { get; set; }
-        public UIElement ue { get; set; }
+        public int Left { get; set; }
+        public int Top { get; set; }
+        public bool Side { get; set; }
+        public FrameworkElement El { get; set; }
+        public UIElement Ue { get; set; }
     }
     public partial class MainWindow : Window
     {
-        //grid info
-        public static int workinggrid_width = 900; //šířka celého plátna 
-        public static int workinggrid_height = 750; //výška celého plátna
-        //character 
-        public static int char_width = 80; //šířka hráče 
-        public static int char_height = 80; //výška hráče 
+        public static int workinggrid_width = 900;
+        public static int workinggrid_height = 750;
         character ivan;
-        wall wall1;
-        wall wall2;
-        wall wall3;
         DispatcherTimer time = new DispatcherTimer(DispatcherPriority.Render);
-        scoreboard score;
         public MainWindow()
         {
             InitializeComponent();
+            Scoreboard score;
+            wall wall1;
+            wall wall2;
+            wall wall3;
             time.Interval = new TimeSpan(0, 0, 0, 0, 1);
             time.Tick += Clock;
-
             time.Start();
-            //score 
-            score = new scoreboard(mriz, 700, 40);
-
-
-            //object creating
+            score = new Scoreboard(mriz, 700, 40);
             ivan = new character(mriz);
-            // stěny ///
             wall1 = new wall(100, 300, 150, 50, mriz);
             wall2 = new wall(600, 300, 150, 50, mriz);
             wall3 = new wall(350, 500, 150, 50, mriz);
-
-            //
-
         }
-        public static int go_down_speed = 3;
         int ts = 500;
         int interval = 0;
         int spawningtime = 0;
@@ -92,8 +78,6 @@ namespace The_game
         public static int force = 0;
         private void Clock(object sender, EventArgs e)
         {
-
-            //ivan.echeck(mriz); - sběr bonus point
             if (right == true) { ivan.moveright(); }
             if (left == true) { ivan.moveleft(); }
             interval++;
@@ -123,7 +107,7 @@ namespace The_game
             if (e.Key == Key.Space && doublejump < 1)
             {
                 doublejump += 1;
-                MainWindow.force = gravity;
+                force = gravity;
             }
             if (e.Key == Key.F)
             {
@@ -136,13 +120,11 @@ namespace The_game
             if (e.Key == Key.Right || e.Key == Key.D) { right = false; }
             if (e.Key == Key.Left || e.Key == Key.A) { left = false; }
         }
-        // main wall class (class for making wall omegalul)
-
     }
-    public class scoreboard
+    public class Scoreboard
     {
         public static Label scor;
-        public scoreboard(Grid mriz, int sleft, int stop)
+        public Scoreboard(Grid mriz, int sleft, int stop)
         {
             scor = new Label();
             scor.Content = 0;
@@ -163,7 +145,7 @@ namespace The_game
     }
     class wall
     {
-        public static List<walliind> wali = new List<walliind>(); // vytvoření listu stěn
+        public static List<Walliind> wali = new List<Walliind>();
         public Rectangle w;
         public wall(int x, int y, int sirka, int vyska, Grid mriz)
         {
@@ -179,17 +161,16 @@ namespace The_game
             jevois(x, y, sirka, vyska);
             w.Fill = new ImageBrush(wallimg);
         }
-
         private static void jevois(int x, int y, int sirka, int vyska)
         {
-            walliind save = new walliind()
+            Walliind save = new Walliind()
             {
-                walldown = y + vyska,
-                wallleft = x,
-                wallright = x + sirka,
-                wallup = y,
-                eontop = 0,
-                wasontop = false
+                Walldown = y + vyska,
+                Wallleft = x,
+                Wallright = x + sirka,
+                Wallup = y,
+                Eontop = 0,
+                Wasontop = false
             };
             wall.wali.Add(save);
         }
@@ -197,28 +178,28 @@ namespace The_game
     class enemy
     {
         public static List<UIElement> itemstoremove = new List<UIElement>();
-        public static List<enemlog> enemiesave = new List<enemlog>();
+        public static List<Enemlog> enemiesave = new List<Enemlog>();
         public static int destroycount = 0;
-        public static void destroy(Grid mriz, enemlog gay)
+        public static void destroy(Grid mriz, Enemlog gay)
         {
-            int ix = gay.left;
-            int yp = gay.top;
+            int ix = gay.Left;
+            int yp = gay.Top;
             foreach (FrameworkElement ui in itemstoremove)
             {
                 double x = ui.Margin.Left;
                 double y = ui.Margin.Top;
                 if (ix == x && y == yp)
                 {
-                    foreach (walliind w in wall.wali)
+                    foreach (Walliind w in wall.wali)
                     {
-                        if (w.wallleft == gay.wl && w.wallup == gay.wt)
+                        if (w.Wallleft == gay.Wl && w.Wallup == gay.Wt)
                         {
-                            w.eontop = 0;
+                            w.Eontop = 0;
                         }
                     }
                     itemstoremove.Remove(ui);
                     mriz.Children.Remove(ui);
-                    scoreboard.scoreplus(1);
+                    Scoreboard.scoreplus(1);
                     destroycount++;
                     break;
                 }
@@ -226,14 +207,14 @@ namespace The_game
         }
         public void elog(int x, int y, int sirka, int vyska, int wll, int wtt)
         {
-            enemlog save = new enemlog()
+            Enemlog save = new Enemlog()
             {
-                left = x,
-                top = y,
-                right = x + sirka,
-                bottom = y + vyska,
-                wl = wll, //wall of enemie spawn left 
-                wt = wtt, // -||- top
+                Left = x,
+                Top = y,
+                Right = x + sirka,
+                Bottom = y + vyska,
+                Wl = wll,
+                Wt = wtt,
             };
             enemy.enemiesave.Add(save);
         }
@@ -245,48 +226,45 @@ namespace The_game
             int ontruetest = 0;
             BitmapImage point = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/en1.png"));
             Rectangle e1;
-            int onecreate = 0; // creat only one in row
+            int onecreate = 0;
             e1 = new Rectangle();
             e1.Width = 40;
             e1.Height = 70;
             e1.VerticalAlignment = VerticalAlignment.Top;
             e1.HorizontalAlignment = HorizontalAlignment.Left;
             e1.Fill = new SolidColorBrush(Colors.Black);
-            foreach (walliind wall in wall.wali)
+            foreach (Walliind wall in wall.wali)
             {
-                if (wall.eontop == 0 && onecreate == 0 && wall.wasontop == false)
+                if (wall.Eontop == 0 && onecreate == 0 && wall.Wasontop == false)
                 {
-                    wall.wasontop = true;
+                    wall.Wasontop = true;
                     onecreate = 1;
-                    wall.eontop = 1;
+                    wall.Eontop = 1;
                     e1.Fill = new ImageBrush(point);
-                    e1.Margin = new Thickness((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2), wall.wallup - e1.Height, 0, 0);
+                    e1.Margin = new Thickness((wall.Wallright - wall.Wallleft) / 2 + wall.Wallleft - (e1.Width / 2), wall.Wallup - e1.Height, 0, 0);
                     mriz.Children.Add(e1);
-                    int a = Convert.ToInt32((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e1.Width / 2));
-                    int b = Convert.ToInt32(wall.wallup - e1.Height);
-                    elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height), wall.wallleft, wall.wallup);
+                    int a = Convert.ToInt32((wall.Wallright - wall.Wallleft) / 2 + wall.Wallleft - (e1.Width / 2));
+                    int b = Convert.ToInt32(wall.Wallup - e1.Height);
+                    elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height), wall.Wallleft, wall.Wallup);
                     itemstoremove.Add(e1);
                 }
-
             }
-            foreach (walliind walii in wall.wali)
+            foreach (Walliind walii in wall.wali)
             {
-                if (walii.wasontop == true)
+                if (walii.Wasontop == true)
                 {
                     ontruetest++;
                 }
             }
             if (ontruetest == 3)
             {
-                foreach (walliind walis in wall.wali)
+                foreach (Walliind walis in wall.wali)
                 {
-                    walis.wasontop = false;
+                    walis.Wasontop = false;
                     ontruetest = 0;
                 }
             }
-
         }
-
     }
     class EnType2 : enemy
     {
@@ -300,17 +278,17 @@ namespace The_game
             e2.HorizontalAlignment = HorizontalAlignment.Left;
             e2.VerticalAlignment = VerticalAlignment.Top;
             e2.Fill = new SolidColorBrush(Colors.Violet);
-            foreach (walliind wall in wall.wali)
+            foreach (Walliind wall in wall.wali)
             {
-                if (wall.eontop == 0 && onecreate == 0)
+                if (wall.Eontop == 0 && onecreate == 0)
                 {
                     onecreate = 1;
-                    wall.eontop = 1;
-                    e2.Margin = new Thickness((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e2.Width / 2), wall.wallup - e2.Width - 10, 0, 0);
+                    wall.Eontop = 1;
+                    e2.Margin = new Thickness((wall.Wallright - wall.Wallleft) / 2 + wall.Wallleft - (e2.Width / 2), wall.Wallup - e2.Width - 10, 0, 0);
                     mriz.Children.Add(e2);
-                    int a = Convert.ToInt32((wall.wallright - wall.wallleft) / 2 + wall.wallleft - (e2.Width / 2));
-                    int b = Convert.ToInt32(wall.wallup - e2.Width - 10);
-                    elog(a, b, Convert.ToInt32(e2.Width), Convert.ToInt32(e2.Height), wall.wallleft, wall.wallup);
+                    int a = Convert.ToInt32((wall.Wallright - wall.Wallleft) / 2 + wall.Wallleft - (e2.Width / 2));
+                    int b = Convert.ToInt32(wall.Wallup - e2.Width - 10);
+                    elog(a, b, Convert.ToInt32(e2.Width), Convert.ToInt32(e2.Height), wall.Wallleft, wall.Wallup);
                     itemstoremove.Add(e2);
                 }
             }
@@ -318,7 +296,7 @@ namespace The_game
     }
     class bullet
     {
-        public static List<buletinf> bulletlog = new List<buletinf>();
+        public static List<Buletinf> bulletlog = new List<Buletinf>();
         public Rectangle bul;
         public bullet(Grid mriz)
         {
@@ -330,46 +308,46 @@ namespace The_game
             bul.HorizontalAlignment = HorizontalAlignment.Left;
             bul.Margin = new Thickness(character.charposleft + 20, character.charposttop + 40, 0, 0);
             mriz.Children.Add(bul);
-            buletinf bullet = new buletinf
+            Buletinf bullet = new Buletinf
             {
-                left = Convert.ToInt32(bul.Margin.Left),
-                top = Convert.ToInt32(bul.Margin.Top),
-                side = character.charonright,
-                ue = bul,
-                el = bul
+                Left = Convert.ToInt32(bul.Margin.Left),
+                Top = Convert.ToInt32(bul.Margin.Top),
+                Side = character.charonright,
+                Ue = bul,
+                El = bul
             };
             bulletlog.Add(bullet);
         }
         public static void bulletchange(Grid mriz)
         {
-            foreach (buletinf bullet in bulletlog)
+            foreach (Buletinf bullet in bulletlog)
             {
-                FrameworkElement save = bullet.el;
+                FrameworkElement save = bullet.El;
                 if (save.Margin.Left < 0 || save.Margin.Left > MainWindow.workinggrid_width)
                 {
                     mriz.Children.Remove(save);
                 }
                 else
                 {
-                    mriz.Children.Remove(bullet.el);
-                    if (bullet.side == true)
+                    mriz.Children.Remove(bullet.El);
+                    if (bullet.Side == true)
                     {
                         save.Margin = new Thickness(save.Margin.Left + 10, save.Margin.Top, 0, 0);
-                        bullet.left = Convert.ToInt32(save.Margin.Left);
+                        bullet.Left = Convert.ToInt32(save.Margin.Left);
                     }
-                    if (bullet.side == false)
+                    if (bullet.Side == false)
                     {
-                        bullet.left = Convert.ToInt32(save.Margin.Left);
+                        bullet.Left = Convert.ToInt32(save.Margin.Left);
                         save.Margin = new Thickness(save.Margin.Left - 10, save.Margin.Top, 0, 0);
                     }
                     mriz.Children.Add(save);
 
-                    foreach (enemlog gay in enemy.enemiesave)
+                    foreach (Enemlog gay in enemy.enemiesave)
                     {
-                        if (bullet.left + bullet.el.Width > gay.left &&
-                            bullet.top + bullet.el.Height > gay.top &&
-                            bullet.left < gay.right &&
-                            bullet.top < gay.bottom)
+                        if (bullet.Left + bullet.El.Width > gay.Left &&
+                            bullet.Top + bullet.El.Height > gay.Top &&
+                            bullet.Left < gay.Right &&
+                            bullet.Top < gay.Bottom)
                         {
                             enemy.destroy(mriz, gay);
                             enemy.enemiesave.Remove(gay);
@@ -383,6 +361,9 @@ namespace The_game
     }
     class character
     {
+        int go_down_speed = 3;
+        int char_width = 80; //šířka hráče 
+        int char_height = 80; //výška hráče 
         public static bool charonright = true;
         public static int charposleft = 0;
         public static int charposttop = 0;
@@ -392,16 +373,16 @@ namespace The_game
         public character(Grid mriz)
         {
             Image charac1 = new Image();
-            charac1.Width = MainWindow.char_width;
-            charac1.Height = MainWindow.char_height;
+            charac1.Width = char_width;
+            charac1.Height = char_height;
 
             c = new Rectangle();
-            c.Width = MainWindow.char_width;
-            c.Height = MainWindow.char_height;
+            c.Width = char_width;
+            c.Height = char_height;
             c.Fill = new SolidColorBrush(Colors.Yellow);
             c.VerticalAlignment = VerticalAlignment.Top;
             c.HorizontalAlignment = HorizontalAlignment.Left;
-            c.Margin = new Thickness(50, /*MainWindow.workinggrid_height - MainWindow.char_height*/100, 0, 0);
+            c.Margin = new Thickness(50, 100, 0, 0);
             mriz.Children.Add(c);
             c.Fill = new ImageBrush(charright);
         }
@@ -409,9 +390,9 @@ namespace The_game
         {
             int left = Convert.ToInt32(c.Margin.Left);
             int up = Convert.ToInt32(c.Margin.Top);
-            foreach (enemlog gay in enemy.enemiesave)
+            foreach (Enemlog gay in enemy.enemiesave)
             {
-                if (left + MainWindow.char_width > gay.left && up + MainWindow.char_height > gay.top && left < gay.right && up < gay.bottom)
+                if (left + char_width > gay.Left && up + char_height > gay.Top && left < gay.Right && up < gay.Bottom)
                 {
                     enemy.destroy(mriz, gay);
                     enemy.enemiesave.Remove(gay);
@@ -424,12 +405,12 @@ namespace The_game
             bool inner = true;
             int left = Convert.ToInt32(c.Margin.Left);
             int up = Convert.ToInt32(c.Margin.Top);
-            foreach (walliind w in wall.wali)
+            foreach (Walliind w in wall.wali)
             {
-                if (left - 1 < w.wallright && up < w.walldown && up + MainWindow.char_height > w.wallup && left + MainWindow.char_width > w.wallright)
+                if (left - 1 < w.Wallright && up < w.Walldown && up + char_height > w.Wallup && left + char_width > w.Wallright)
                 {
                     inner = false;
-                    c.Margin = new Thickness(w.wallright, up, 0, 0);
+                    c.Margin = new Thickness(w.Wallright, up, 0, 0);
                 }
             }
             if (left < 5)
@@ -444,22 +425,21 @@ namespace The_game
             }
             charposleft = Convert.ToInt32(c.Margin.Left);
             charposttop = Convert.ToInt32(c.Margin.Top);
-
         }
         public void moveright()
         {
             bool inner = true;
             int left = Convert.ToInt32(c.Margin.Left);
             int up = Convert.ToInt32(c.Margin.Top);
-            foreach (walliind w in wall.wali)
+            foreach (Walliind w in wall.wali)
             {
-                if (left + 1 + MainWindow.char_width > w.wallleft && up < w.walldown && up + MainWindow.char_height > w.wallup && left < w.wallleft)
+                if (left + 1 + char_width > w.Wallleft && up < w.Walldown && up + char_height > w.Wallup && left < w.Wallleft)
                 {
                     inner = false;
-                    c.Margin = new Thickness(w.wallleft - MainWindow.char_width, up, 0, 0);
+                    c.Margin = new Thickness(w.Wallleft - char_width, up, 0, 0);
                 }
             }
-            if (left + MainWindow.char_width > MainWindow.workinggrid_width - 5)
+            if (left + char_width > MainWindow.workinggrid_width - 5)
             {
                 inner = false;
             }
@@ -481,25 +461,22 @@ namespace The_game
             int left = Convert.ToInt32(c.Margin.Left);
             int up = Convert.ToInt32(c.Margin.Top);
 
-            foreach (walliind w in wall.wali)
+            foreach (Walliind w in wall.wali)
             {
-                //kontrola wall nad
-                if (left + MainWindow.char_width > w.wallleft && left < w.wallright && up < w.walldown && up + MainWindow.char_height > w.walldown)
+                if (left + char_width > w.Wallleft && left < w.Wallright && up < w.Walldown && up + char_height > w.Walldown)
                 {
                     objectontop = true;
-                    c.Margin = new Thickness(left, w.walldown, 0, 0);
+                    c.Margin = new Thickness(left, w.Walldown, 0, 0);
                 }
-                //kontrola wall pod 
-                if (up + MainWindow.char_height >= w.wallup && left + MainWindow.char_width > w.wallleft && left < w.wallright && up < w.wallup)
+                if (up + char_height >= w.Wallup && left + char_width > w.Wallleft && left < w.Wallright && up < w.Wallup)
                 {
                     objectondown = true;
                     if (force < 0)
                     {
-                        c.Margin = new Thickness(left, w.wallup - MainWindow.char_height, 0, 0);
+                        c.Margin = new Thickness(left, w.Wallup - char_height, 0, 0);
                     }
                 }
             }
-            //kontrola border nad
             if (objectondown == true)
             {
                 MainWindow.doublejump = 0;
@@ -522,8 +499,7 @@ namespace The_game
                 force = -3;
                 MainWindow.force = -3;
             }
-            //kontrola border pod
-            if (MainWindow.char_height + up >= MainWindow.workinggrid_height - 6)
+            if (char_height + up >= MainWindow.workinggrid_height - 6)
             {
                 borderondown = true;
                 if (force > 0)
@@ -532,7 +508,7 @@ namespace The_game
                 }
                 else
                 {
-                    c.Margin = new Thickness(left, MainWindow.workinggrid_height - MainWindow.char_height, 0, 0);
+                    c.Margin = new Thickness(left, MainWindow.workinggrid_height - char_height, 0, 0);
                     MainWindow.force = 0;
                 }
                 MainWindow.doublejump = 0;
@@ -546,16 +522,13 @@ namespace The_game
             }
             if (borderondown == false && borderontop == false && objectondown == false)
             {
-                MainWindow.force = MainWindow.force - MainWindow.go_down_speed;
-                force = force - MainWindow.go_down_speed;
+                MainWindow.force -= go_down_speed;
+                force -= go_down_speed;
                 c.Margin = new Thickness(left, up - force, 0, 0);
                 Debug.WriteLine(force);
             }
             charposleft = Convert.ToInt32(c.Margin.Left);
             charposttop = Convert.ToInt32(c.Margin.Top);
-            //provedení akcí -_-
-            //Pokud jsme v prostoru a pod námi není nic 
-
         }
     }
 }
