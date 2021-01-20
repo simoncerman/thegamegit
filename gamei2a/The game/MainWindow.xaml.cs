@@ -88,28 +88,28 @@ namespace The_game
                 ivan.Jumpe(force);
                 interval = 0;
             }
-            if (spawningtime == 150)
+            if (spawningtime == 150) //spawn of enemy type 1
             {
                 EnType1 t1 = new EnType1(mriz);
                 spawningtime = 0;
             }
             Bullet.Bulletchange(mriz);
         }
-        private void Mousemainclick(object sender, MouseButtonEventArgs e)
+        private void Mousemainclick(object sender, MouseButtonEventArgs e) //shoot on click
         {
             Bullet b;
             b = new Bullet(mriz);
         }
         private void KeyDown1(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Right || e.Key == Key.D) { right = true; }
-            if (e.Key == Key.Left || e.Key == Key.A) { left = true; }
-            if (e.Key == Key.Space && doublejump < 1)
+            if (e.Key == Key.Right || e.Key == Key.D) { right = true; } //go to right
+            if (e.Key == Key.Left || e.Key == Key.A) { left = true; } //go to left
+            if (e.Key == Key.Space && doublejump < 1) //change force if space key down
             {
                 doublejump += 1;
                 force = gravity;
             }
-            if (e.Key == Key.F)
+            if (e.Key == Key.F) //shooting like on click (left)
             {
                 Bullet b;
                 b = new Bullet(mriz);
@@ -121,10 +121,10 @@ namespace The_game
             if (e.Key == Key.Left || e.Key == Key.A) { left = false; }
         }
     }
-    public class Scoreboard
+    public class Scoreboard //score class 
     {
         public static Label scor;
-        public Scoreboard(Grid mriz, int sleft, int stop)
+        public Scoreboard(Grid mriz, int sleft, int stop) // create score lable 
         {
             scor = new Label();
             scor.Content = 0;
@@ -136,18 +136,18 @@ namespace The_game
             scor.Margin = new Thickness(sleft, stop, 0, 0);
             mriz.Children.Add(scor);
         }
-        public static void Scoreplus(int plus)
+        public static void Scoreplus(int plus) //funcion to add points
         {
             string sscoreusing = scor.Content.ToString();
             int scoreusing = Convert.ToInt32(sscoreusing);
             scor.Content = scoreusing + plus;
         }
     }
-    class Wall
+    class Wall //wall funcion
     {
-        public static List<Walliind> wali = new List<Walliind>();
+        public static List<Walliind> wali = new List<Walliind>(); //this is list of walls
         public Rectangle w;
-        public Wall(int x, int y, int sirka, int vyska, Grid mriz)
+        public Wall(int x, int y, int sirka, int vyska, Grid mriz) //constructor funcion
         {
             w = new Rectangle();
             w.Width = sirka;
@@ -158,12 +158,12 @@ namespace The_game
             w.HorizontalAlignment = HorizontalAlignment.Left;
             mriz.Children.Add(w);
             BitmapImage wallimg = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/testwall.png"));
-            Jevois(x, y, sirka, vyska);
-            w.Fill = new ImageBrush(wallimg);
+            Jevois(x, y, sirka, vyska); //funcion to address wall to log of walls 
+            w.Fill = new ImageBrush(wallimg); //filling wall with photo
         }
-        private static void Jevois(int x, int y, int sirka, int vyska)
+        private static void Jevois(int x, int y, int sirka, int vyska) //funcion to address wall to log of walls 
         {
-            Walliind save = new Walliind()
+            Walliind save = new Walliind() 
             {
                 Walldown = y + vyska,
                 Wallleft = x,
@@ -172,25 +172,25 @@ namespace The_game
                 Eontop = 0,
                 Wasontop = false
             };
-            Wall.wali.Add(save);
+            Wall.wali.Add(save); //save into wall info list
         }
     }
-    class Enemy
+    class Enemy //enemy class 
     {
-        public static List<UIElement> itemstoremove = new List<UIElement>();
-        public static List<Enemlog> enemiesave = new List<Enemlog>();
-        public static int destroycount = 0;
-        public static void Destroy(Grid mriz, Enemlog gay)
+        public static List<UIElement> itemstoremove = new List<UIElement>(); // list to save uielement (full instance of enemy)
+        public static List<Enemlog> enemiesave = new List<Enemlog>(); // list to save info about enemy
+        public static int destroycount = 0; 
+        public static void Destroy(Grid mriz, Enemlog gay) //class for remove enemy from grid and from list
         {
             int ix = gay.Left;
             int yp = gay.Top;
-            foreach (FrameworkElement ui in itemstoremove)
+            foreach (FrameworkElement ui in itemstoremove) 
             {
                 double x = ui.Margin.Left;
                 double y = ui.Margin.Top;
                 if (ix == x && y == yp)
                 {
-                    foreach (Walliind w in Wall.wali)
+                    foreach (Walliind w in Wall.wali) //changing info of wall where was enemy to controll spawn on walls
                     {
                         if (w.Wallleft == gay.Wl && w.Wallup == gay.Wt)
                         {
@@ -205,7 +205,7 @@ namespace The_game
                 }
             }
         }
-        public void Elog(int x, int y, int sirka, int vyska, int wll, int wtt)
+        public void Elog(int x, int y, int sirka, int vyska, int wll, int wtt) //funcion to log enemy
         {
             Enemlog save = new Enemlog()
             {
@@ -219,9 +219,9 @@ namespace The_game
             Enemy.enemiesave.Add(save);
         }
     }
-    class EnType1 : Enemy
+    class EnType1 : Enemy // enemy type 1
     {
-        public EnType1(Grid mriz)
+        public EnType1(Grid mriz) // create enemy type 1
         {
             int ontruetest = 0;
             BitmapImage point = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/en1.png"));
@@ -266,7 +266,7 @@ namespace The_game
             }
         }
     }
-    class EnType2 : Enemy
+    class EnType2 : Enemy //enemy type 2 on prepare
     {
         public EnType2(Grid mriz)
         {
@@ -294,11 +294,11 @@ namespace The_game
             }
         }
     }
-    class Bullet
+    class Bullet //bullet class
     {
         public static List<Buletinf> bulletlog = new List<Buletinf>();
         public Rectangle bul;
-        public Bullet(Grid mriz)
+        public Bullet(Grid mriz) //bullet create funcion 
         {
             bul = new Rectangle();
             bul.Width = 10;
@@ -308,7 +308,7 @@ namespace The_game
             bul.HorizontalAlignment = HorizontalAlignment.Left;
             bul.Margin = new Thickness(Character.charposleft + 20, Character.charposttop + 40, 0, 0);
             mriz.Children.Add(bul);
-            Buletinf bullet = new Buletinf
+            Buletinf bullet = new Buletinf //log bullet to list of bullets
             {
                 Left = Convert.ToInt32(bul.Margin.Left),
                 Top = Convert.ToInt32(bul.Margin.Top),
@@ -318,7 +318,7 @@ namespace The_game
             };
             bulletlog.Add(bullet);
         }
-        public static void Bulletchange(Grid mriz)
+        public static void Bulletchange(Grid mriz) //every time changing bullet position
         {
             foreach (Buletinf bullet in bulletlog)
             {
@@ -342,9 +342,9 @@ namespace The_game
                     }
                     mriz.Children.Add(save);
 
-                    foreach (Enemlog gay in Enemy.enemiesave)
+                    foreach (Enemlog gay in Enemy.enemiesave) //if bullet cross enemy -> kill enemy -> bullet not destroyed
                     {
-                        if (bullet.Left + bullet.El.Width > gay.Left &&
+                        if (bullet.Left + bullet.El.Width > gay.Left && 
                             bullet.Top + bullet.El.Height > gay.Top &&
                             bullet.Left < gay.Right &&
                             bullet.Top < gay.Bottom)
@@ -359,11 +359,11 @@ namespace The_game
             }
         }
     }
-    class Character
+    class Character // main chracter class
     {
-        readonly int go_down_speed = 3;
-        readonly int char_width = 80; //šířka hráče 
-        readonly int char_height = 80; //výška hráče 
+        readonly int go_down_speed = 3; //go down speed - speed decresing in time
+        readonly int char_width = 80; // player width
+        readonly int char_height = 80; // player height
         public static bool charonright = true;
         public static int charposleft = 0;
         public static int charposttop = 0;
@@ -386,7 +386,7 @@ namespace The_game
             mriz.Children.Add(c);
             c.Fill = new ImageBrush(charright);
         }
-        public void Echeck(Grid mriz)
+        public void Echeck(Grid mriz) //Oncross enemy destroy -> not working in this time
         {
             int left = Convert.ToInt32(c.Margin.Left);
             int up = Convert.ToInt32(c.Margin.Top);
@@ -400,7 +400,7 @@ namespace The_game
                 }
             }
         }
-        public void Moveleft()
+        public void Moveleft() //funcion to move left
         {
             bool inner = true;
             int left = Convert.ToInt32(c.Margin.Left);
@@ -426,7 +426,7 @@ namespace The_game
             charposleft = Convert.ToInt32(c.Margin.Left);
             charposttop = Convert.ToInt32(c.Margin.Top);
         }
-        public void Moveright()
+        public void Moveright() //funcion to move right
         {
             bool inner = true;
             int left = Convert.ToInt32(c.Margin.Left);
@@ -452,7 +452,7 @@ namespace The_game
             charposleft = Convert.ToInt32(c.Margin.Left);
             charposttop = Convert.ToInt32(c.Margin.Top);
         }
-        public void Jumpe(int force)
+        public void Jumpe(int force) //funcion to fall and jump 
         {
             bool objectontop = false;
             bool objectondown = false;
