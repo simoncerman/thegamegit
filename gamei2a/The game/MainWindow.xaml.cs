@@ -223,6 +223,7 @@ namespace The_game
     {
         public EnType1(Grid mriz) // create enemy type 1
         {
+            Random rand = new Random();
             int ontruetest = 0;
             BitmapImage point = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/en1.png"));
             Rectangle e1;
@@ -233,7 +234,20 @@ namespace The_game
             e1.VerticalAlignment = VerticalAlignment.Top;
             e1.HorizontalAlignment = HorizontalAlignment.Left;
             e1.Fill = new SolidColorBrush(Colors.Black);
-            foreach (Walliind wall in Wall.wali)
+
+            //randomly spawn - fix 
+            List<Walliind> timewalilist = new List<Walliind>(); // create "temporarily" List - for randomly choose
+            while (timewalilist.Count!=Wall.wali.Count) //while - all items in list will not be in new list
+            {
+                int randomized = rand.Next(0, Wall.wali.Count()); //random number what you take from list
+                Walliind randomly_choosed = Wall.wali[randomized]; //randomly choosed item
+                if (timewalilist.Contains(randomly_choosed)!= true) //test if randomly choosed item is in the list
+                {
+                    timewalilist.Add(randomly_choosed); //add to the randomized list
+                }
+            }
+
+            foreach (Walliind wall in timewalilist)
             {
                 if (wall.Eontop == 0 && onecreate == 0 && wall.Wasontop == false)
                 {
@@ -410,7 +424,11 @@ namespace The_game
                 if (left - 1 < w.Wallright && up < w.Walldown && up + char_height > w.Wallup && left + char_width > w.Wallright)
                 {
                     inner = false;
-                    c.Margin = new Thickness(w.Wallright, up, 0, 0);
+                    /*Margin to the wall only if not falling - fixed of falling and going right*/
+                    if (left - 1 < w.Wallright && up < w.Walldown && up > w.Wallup && left + char_width > w.Wallright)
+                    {
+                        c.Margin = new Thickness(w.Wallright, up, 0, 0);
+                    }
                 }
             }
             if (left < 5)
@@ -436,7 +454,11 @@ namespace The_game
                 if (left + 1 + char_width > w.Wallleft && up < w.Walldown && up + char_height > w.Wallup && left < w.Wallleft)
                 {
                     inner = false;
-                    c.Margin = new Thickness(w.Wallleft - char_width, up, 0, 0);
+                    /*Margin to the wall only if not falling - fixed of falling and going right*/
+                    if (left + 1 + char_width > w.Wallleft && up < w.Walldown && up > w.Wallup && left < w.Wallleft)
+                    {
+                        c.Margin = new Thickness(w.Wallleft - char_width, up, 0, 0);
+                    }
                 }
             }
             if (left + char_width > MainWindow.workinggrid_width - 5)
