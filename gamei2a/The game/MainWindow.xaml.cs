@@ -424,11 +424,6 @@ namespace The_game
                 if (left - 1 < w.Wallright && up < w.Walldown && up + char_height > w.Wallup && left + char_width > w.Wallright)
                 {
                     inner = false;
-                    /*Margin to the wall only if not falling - fixed of falling and going right*/
-                    if (left - 1 < w.Wallright && up < w.Walldown && up > w.Wallup && left + char_width > w.Wallright)
-                    {
-                        c.Margin = new Thickness(w.Wallright, up, 0, 0);
-                    }
                 }
             }
             if (left < 5)
@@ -454,11 +449,6 @@ namespace The_game
                 if (left + 1 + char_width > w.Wallleft && up < w.Walldown && up + char_height > w.Wallup && left < w.Wallleft)
                 {
                     inner = false;
-                    /*Margin to the wall only if not falling - fixed of falling and going right*/
-                    if (left + 1 + char_width > w.Wallleft && up < w.Walldown && up > w.Wallup && left < w.Wallleft)
-                    {
-                        c.Margin = new Thickness(w.Wallleft - char_width, up, 0, 0);
-                    }
                 }
             }
             if (left + char_width > MainWindow.workinggrid_width - 5)
