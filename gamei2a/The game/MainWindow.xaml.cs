@@ -43,7 +43,8 @@ namespace The_game
     {
         public int Left { get; set; }
         public int Top { get; set; }
-        public bool Side { get; set; } //side (left / right) -> ((if true -> go right/ if false -> go left))
+        public double gl { get; set; }
+        public double gt { get; set; }
         public FrameworkElement El { get; set; } //saving bullet as element
         public UIElement Ue { get; set; } //the same  -||-
     }
@@ -94,11 +95,10 @@ namespace The_game
         }
         private void Mousemainclick(object sender, MouseButtonEventArgs e) //shoot on click
         {
-            Bullet b;
-            b = new Bullet(mriz);
             double left_m = Mouse.GetPosition(this).X;
             double top_m = Mouse.GetPosition(this).Y;
             Point clicked = new Point(left_m, top_m);
+            Bullet b = new Bullet(mriz, clicked);
 
         }
         private void KeyDown1(object sender, KeyEventArgs e)
@@ -109,11 +109,6 @@ namespace The_game
             {
                 doublejump += 1;
                 force = gravity;
-            }
-            if (e.Key == Key.F) //shooting like on click (left)
-            {
-                Bullet b;
-                b = new Bullet(mriz);
             }
         }
         private void KeyUp1(object sender, KeyEventArgs e)
@@ -313,21 +308,29 @@ namespace The_game
     {
         public static List<Buletinf> bulletlog = new List<Buletinf>();
         public Rectangle bul;
-        public Bullet(Grid mriz) //bullet create funcion 
+        public Bullet(Grid mriz, Point click) //bullet create funcion 
         {
+            double goin_to_left = click.X-Character.charposleft-40;
+            double goin_to_top = click.Y - Character.charposttop-40;
+            double d = Math.Sqrt(Math.Pow(goin_to_left,2) + Math.Pow(goin_to_top,2));
+            double k = 10 / d;
+            double save_to_left = goin_to_left * k;
+            double save_to_rigth = goin_to_top * k;
+
             bul = new Rectangle();
-            bul.Width = 10;
-            bul.Height = 2;
+            bul.Width = 5;
+            bul.Height = 5;
             bul.Fill = new SolidColorBrush(Colors.Red);
             bul.VerticalAlignment = VerticalAlignment.Top;
             bul.HorizontalAlignment = HorizontalAlignment.Left;
-            bul.Margin = new Thickness(Character.charposleft + 20, Character.charposttop + 40, 0, 0);
+            bul.Margin = new Thickness(Character.charposleft+40, Character.charposttop+40, 0, 0);
             mriz.Children.Add(bul);
             Buletinf bullet = new Buletinf //log bullet to list of bullets
             {
                 Left = Convert.ToInt32(bul.Margin.Left),
                 Top = Convert.ToInt32(bul.Margin.Top),
-                Side = Character.charonright,
+                gl = save_to_left,
+                gt = save_to_rigth,
                 Ue = bul,
                 El = bul
             };
@@ -335,31 +338,27 @@ namespace The_game
         }
         public static void Bulletchange(Grid mriz) //every time changing bullet position
         {
+            List<Buletinf> intime = new List<Buletinf>();
             foreach (Buletinf bullet in bulletlog)
             {
+
                 FrameworkElement save = bullet.El;
                 if (save.Margin.Left < 0 || save.Margin.Left > MainWindow.workinggrid_width)
                 {
+                    intime.Add(bullet);
                     mriz.Children.Remove(save);
                 }
                 else
                 {
-                    mriz.Children.Remove(bullet.El);
-                    if (bullet.Side == true)
-                    {
-                        save.Margin = new Thickness(save.Margin.Left + 10, save.Margin.Top, 0, 0);
-                        bullet.Left = Convert.ToInt32(save.Margin.Left);
-                    }
-                    if (bullet.Side == false)
-                    {
-                        bullet.Left = Convert.ToInt32(save.Margin.Left);
-                        save.Margin = new Thickness(save.Margin.Left - 10, save.Margin.Top, 0, 0);
-                    }
+                    mriz.Children.Remove(save);
+                    save.Margin = new Thickness(save.Margin.Left + bullet.gl, save.Margin.Top + bullet.gt, 0, 0);
+                    bullet.Left = Convert.ToInt32(save.Margin.Left);
+                    bullet.Top = Convert.ToInt32(save.Margin.Top);
                     mriz.Children.Add(save);
 
                     foreach (Enemlog gay in Enemy.enemiesave) //if bullet cross enemy -> kill enemy -> bullet not destroyed
                     {
-                        if (bullet.Left + bullet.El.Width > gay.Left && 
+                        if (bullet.Left + bullet.El.Width > gay.Left &&
                             bullet.Top + bullet.El.Height > gay.Top &&
                             bullet.Left < gay.Right &&
                             bullet.Top < gay.Bottom)
@@ -370,7 +369,13 @@ namespace The_game
                         }
                     }
                 }
-
+            }
+            if (intime.Count != 0)
+            {
+                foreach(Buletinf el in intime)
+                {
+                    bulletlog.Remove(el);
+                }
             }
         }
     }
@@ -538,7 +543,6 @@ namespace The_game
                 MainWindow.force -= go_down_speed;
                 force -= go_down_speed;
                 c.Margin = new Thickness(left, up - force, 0, 0);
-                Debug.WriteLine(force);
             }
             charposleft = Convert.ToInt32(c.Margin.Left);
             charposttop = Convert.ToInt32(c.Margin.Top);
