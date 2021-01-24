@@ -52,14 +52,11 @@ namespace The_game
         public static int workinggrid_width = 900; // not changing - for reading (mainly for character -> will be used for enemy too)
         public static int workinggrid_height = 750; // -||-
         private readonly Character ivan; // main character 
-        readonly DispatcherTimer time = new DispatcherTimer(DispatcherPriority.Render); // buging if no Dispa.ity.Render 
         public MainWindow()
         {
             InitializeComponent();
             Scoreboard score;
-            time.Interval = new TimeSpan(0, 0, 0, 0, 1);
-            time.Tick += Clock;
-            time.Start();
+            CompositionTarget.Rendering += Clock;
             score = new Scoreboard(mriz, 700, 40); //score with x and y
             ivan = new Character(mriz); //creating character
             /* wall creating*/
@@ -99,6 +96,10 @@ namespace The_game
         {
             Bullet b;
             b = new Bullet(mriz);
+            double left_m = Mouse.GetPosition(this).X;
+            double top_m = Mouse.GetPosition(this).Y;
+            Point clicked = new Point(left_m, top_m);
+
         }
         private void KeyDown1(object sender, KeyEventArgs e)
         {
