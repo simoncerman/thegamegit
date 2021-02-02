@@ -86,7 +86,7 @@ namespace The_game
                 ivan.Jumpe(force);
                 interval = 0;
             }
-            if (spawningtime == 150) //spawn of enemy type 1
+            if (spawningtime == 75) //spawn of enemy type 1
             {
                 EnType1 t1 = new EnType1(mriz);
                 spawningtime = 0;
@@ -115,6 +115,17 @@ namespace The_game
         {
             if (e.Key == Key.Right || e.Key == Key.D) { right = false; }
             if (e.Key == Key.Left || e.Key == Key.A) { left = false; }
+        }
+    }
+    public class Supfunc
+    {
+        Supfunc()
+        {
+
+        }
+        public static BitmapImage Urimaker(string name)
+        {
+            return(new BitmapImage(new Uri(Convert.ToString(System.AppDomain.CurrentDomain.BaseDirectory)+"/imgs/" + name)));
         }
     }
     public class Scoreboard //score class 
@@ -153,7 +164,7 @@ namespace The_game
             w.VerticalAlignment = VerticalAlignment.Top;
             w.HorizontalAlignment = HorizontalAlignment.Left;
             mriz.Children.Add(w);
-            BitmapImage wallimg = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/testwall.png"));
+            BitmapImage wallimg = Supfunc.Urimaker("testwall.png");
             Jevois(x, y, sirka, vyska); //funcion to address wall to log of walls 
             w.Fill = new ImageBrush(wallimg); //filling wall with photo
         }
@@ -221,7 +232,7 @@ namespace The_game
         {
             Random rand = new Random();
             int ontruetest = 0;
-            BitmapImage point = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/en1.png"));
+            BitmapImage point = Supfunc.Urimaker("en1.png");
             Rectangle e1;
             int onecreate = 0;
             e1 = new Rectangle();
@@ -310,8 +321,8 @@ namespace The_game
         public Rectangle bul;
         public Bullet(Grid mriz, Point click) //bullet create funcion 
         {
-            double goin_to_left = click.X-Character.charposleft-40;
-            double goin_to_top = click.Y - Character.charposttop-40;
+            double goin_to_left = click.X-Character.charposleft-50;
+            double goin_to_top = click.Y - Character.charposttop-50;
             double d = Math.Sqrt(Math.Pow(goin_to_left,2) + Math.Pow(goin_to_top,2));
             double k = 10 / d;
             double save_to_left = goin_to_left * k;
@@ -387,15 +398,29 @@ namespace The_game
         public static bool charonright = true;
         public static int charposleft = 0;
         public static int charposttop = 0;
-        readonly BitmapImage charleft = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/charleft.png"));
-        readonly BitmapImage charright = new BitmapImage(new Uri("http://dod.vos-sps-jicin.cz/wp-content/uploads/simnsgame/charright.png"));
+        private Label hplabel;
+        private int ch_hp_inf;
+        readonly BitmapImage charleft = Supfunc.Urimaker("charleft.png");
+        readonly BitmapImage charright = Supfunc.Urimaker("charright.png");
         readonly Rectangle c;
         public Character(Grid mriz)
         {
             Image charac1 = new Image();
             charac1.Width = char_width;
             charac1.Height = char_height;
-
+            ch_hp_inf = 100;
+            hplabel = new Label();
+            hplabel.Content = ch_hp_inf;
+            hplabel.VerticalContentAlignment = VerticalAlignment.Center;
+            hplabel.HorizontalContentAlignment = HorizontalAlignment.Center;
+            hplabel.Width = 200;
+            hplabel.Height = 30;
+            hplabel.VerticalAlignment = VerticalAlignment.Top;
+            hplabel.HorizontalAlignment = HorizontalAlignment.Left;
+            hplabel.Background = new SolidColorBrush(Colors.Red);
+            hplabel.Margin = new Thickness(MainWindow.workinggrid_width-hplabel.Width,
+                                            MainWindow.workinggrid_height-hplabel.Height, 0, 0);
+            mriz.Children.Add(hplabel);
             c = new Rectangle();
             c.Width = char_width;
             c.Height = char_height;
@@ -406,6 +431,10 @@ namespace The_game
             mriz.Children.Add(c);
             c.Fill = new ImageBrush(charright);
         }
+        public void HP_Change(int hpdown)
+        {
+            var result = hplabel.Content.ToString();
+        }
         public void Echeck(Grid mriz) //Oncross enemy destroy -> not working in this time
         {
             int left = Convert.ToInt32(c.Margin.Left);
@@ -414,8 +443,11 @@ namespace The_game
             {
                 if (left + char_width > gay.Left && up + char_height > gay.Top && left < gay.Right && up < gay.Bottom)
                 {
+                    HP_Change(-30);
+                    /* - this wark for catching enemy - 
                     Enemy.Destroy(mriz, gay);
                     Enemy.enemiesave.Remove(gay);
+                    */
                     break;
                 }
             }
