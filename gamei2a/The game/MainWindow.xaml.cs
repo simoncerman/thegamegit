@@ -419,6 +419,7 @@ namespace The_game
         public static int charposleft = 0;
         public static int charposttop = 0;
         private Label hplabel;
+        private Rectangle hp_bar;
         private int ch_hp_inf;
         readonly BitmapImage charleft = Supfunc.Urimaker("charleft.png");
         readonly BitmapImage charright = Supfunc.Urimaker("charright.png");
@@ -428,19 +429,7 @@ namespace The_game
             Image charac1 = new Image();
             charac1.Width = char_width;
             charac1.Height = char_height;
-            ch_hp_inf = 100;
-            hplabel = new Label();
-            hplabel.Content = ch_hp_inf;
-            hplabel.VerticalContentAlignment = VerticalAlignment.Center;
-            hplabel.HorizontalContentAlignment = HorizontalAlignment.Center;
-            hplabel.Width = 200;
-            hplabel.Height = 30;
-            hplabel.VerticalAlignment = VerticalAlignment.Top;
-            hplabel.HorizontalAlignment = HorizontalAlignment.Left;
-            hplabel.Background = new SolidColorBrush(Colors.Red);
-            hplabel.Margin = new Thickness(MainWindow.workinggrid_width-hplabel.Width,
-                                            MainWindow.workinggrid_height-hplabel.Height, 0, 0);
-            mriz.Children.Add(hplabel);
+
             c = new Rectangle();
             c.Width = char_width;
             c.Height = char_height;
@@ -448,14 +437,49 @@ namespace The_game
             c.VerticalAlignment = VerticalAlignment.Top;
             c.HorizontalAlignment = HorizontalAlignment.Left;
             c.Margin = new Thickness(50, 100, 0, 0);
-            mriz.Children.Add(c);
             c.Fill = new ImageBrush(charright);
+
+            ch_hp_inf = 100;
+            hplabel = new Label();
+            hplabel.Content = ch_hp_inf;
+            hplabel.VerticalContentAlignment = VerticalAlignment.Center;
+            hplabel.HorizontalContentAlignment = HorizontalAlignment.Center;
+            hplabel.Width = 200;
+            hplabel.Height = 40;
+            hplabel.FontSize = 20;
+            hplabel.VerticalAlignment = VerticalAlignment.Top;
+            hplabel.HorizontalAlignment = HorizontalAlignment.Left;
+            hplabel.BorderThickness = new Thickness(2, 2, 2, 2);
+            hplabel.BorderBrush = new SolidColorBrush(Colors.Black);
+            hplabel.Margin = new Thickness(MainWindow.workinggrid_width - hplabel.Width,
+                                            MainWindow.workinggrid_height - hplabel.Height, 0, 0);
+
+            hp_bar = new Rectangle();
+            hp_bar.VerticalAlignment = VerticalAlignment.Top;
+            hp_bar.HorizontalAlignment = HorizontalAlignment.Left;
+            hp_bar.Width = 200;
+            hp_bar.Height = 40;
+            hp_bar.Fill = new SolidColorBrush(Colors.Red);
+            hp_bar.Margin = new Thickness(MainWindow.workinggrid_width - hplabel.Width,
+                                MainWindow.workinggrid_height - hplabel.Height, 0, 0);
+
+            mriz.Children.Add(c);
+            mriz.Children.Add(hp_bar);
+            mriz.Children.Add(hplabel);
         }
         public void HP_Change(int hpdown)
         {
             int result = Convert.ToInt32((hplabel.Content.ToString()));
             result += hpdown;
             hplabel.Content = result;
+            if (result>=0)
+            {
+                hp_bar.Width = result * 2;
+            }
+            if (result<0)
+            {
+                hp_bar.Width = 0;
+            }
         }
         public bool Echeck(Grid mriz) //Oncross enemy destroy -> not working in this time
         {
