@@ -38,6 +38,7 @@ namespace The_game
         public int Bottom { get; set; }
         public int Wl { get; set; } // left of wall where enemy stand
         public int Wt { get; set; } // right of wall where eneym stand
+        public int hp_taking_close { get; set; } // when you cross enemy of this type
     }
     public class Buletinf // for bullet tracking 
     {
@@ -71,6 +72,8 @@ namespace The_game
         readonly int ts = 500; //time when funcion jump is called
         int interval = 0; //using for timing of jump  - must be 0 -> every round +1 (every milisec)
         int spawningtime = 0; // same like interval -> used for enemies
+        int nexttimer = 0; // like timer for check of enemy
+        public static bool hitted = false; // if char (ivan) was hitted - waiting 30 times
         public static int doublejump = 0; //is used for doublejump -_-
         public static bool right, left, jump; //some bools maybe used in time more
         readonly int gravity = 30; //acualy not gravity but jump-up force - its like anti-gravity
@@ -81,6 +84,19 @@ namespace The_game
             if (left == true) { ivan.Moveleft(); }
             interval++;
             spawningtime++;
+            if (hitted == true)
+            {
+                nexttimer++;
+                if (nexttimer == 30)
+                {
+                    hitted = false;
+                    nexttimer = 0;
+                }
+            }
+            if (hitted == false)
+            {
+                hitted = ivan.Echeck(mriz);
+            }
             if (interval == 1000 / ts)
             {
                 ivan.Jumpe(force);
@@ -92,6 +108,8 @@ namespace The_game
                 spawningtime = 0;
             }
             Bullet.Bulletchange(mriz);
+
+
         }
         private void Mousemainclick(object sender, MouseButtonEventArgs e) //shoot on click
         {
@@ -212,7 +230,7 @@ namespace The_game
                 }
             }
         }
-        public void Elog(int x, int y, int sirka, int vyska, int wll, int wtt) //funcion to log enemy
+        public void Elog(int x, int y, int sirka, int vyska, int wll, int wtt, int hp_taking_close) //funcion to log enemy
         {
             Enemlog save = new Enemlog()
             {
@@ -222,6 +240,7 @@ namespace The_game
                 Bottom = y + vyska,
                 Wl = wll,
                 Wt = wtt,
+                hp_taking_close = hp_taking_close
             };
             Enemy.enemiesave.Add(save);
         }
@@ -230,6 +249,7 @@ namespace The_game
     {
         public EnType1(Grid mriz) // create enemy type 1
         {
+            int hp_taking_closee = -30;
             Random rand = new Random();
             int ontruetest = 0;
             BitmapImage point = Supfunc.Urimaker("en1.png");
@@ -266,7 +286,7 @@ namespace The_game
                     mriz.Children.Add(e1);
                     int a = Convert.ToInt32((wall.Wallright - wall.Wallleft) / 2 + wall.Wallleft - (e1.Width / 2));
                     int b = Convert.ToInt32(wall.Wallup - e1.Height);
-                    Elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height), wall.Wallleft, wall.Wallup);
+                    Elog(a, b, Convert.ToInt32(e1.Width), Convert.ToInt32(e1.Height), wall.Wallleft, wall.Wallup, hp_taking_closee);
                     itemstoremove.Add(e1);
                 }
             }
@@ -309,7 +329,7 @@ namespace The_game
                     mriz.Children.Add(e2);
                     int a = Convert.ToInt32((wall.Wallright - wall.Wallleft) / 2 + wall.Wallleft - (e2.Width / 2));
                     int b = Convert.ToInt32(wall.Wallup - e2.Width - 10);
-                    Elog(a, b, Convert.ToInt32(e2.Width), Convert.ToInt32(e2.Height), wall.Wallleft, wall.Wallup);
+                    Elog(a, b, Convert.ToInt32(e2.Width), Convert.ToInt32(e2.Height), wall.Wallleft, wall.Wallup,0);
                     itemstoremove.Add(e2);
                 }
             }
@@ -390,7 +410,7 @@ namespace The_game
             }
         }
     }
-    class Character // main chracter class
+    public class Character // main chracter class
     {
         readonly int go_down_speed = 3; //go down speed - speed decresing in time
         readonly int char_width = 80; // player width
@@ -433,23 +453,36 @@ namespace The_game
         }
         public void HP_Change(int hpdown)
         {
-            var result = hplabel.Content.ToString();
+            int result = Convert.ToInt32((hplabel.Content.ToString()));
+            result += hpdown;
+            hplabel.Content = result;
         }
-        public void Echeck(Grid mriz) //Oncross enemy destroy -> not working in this time
+        public bool Echeck(Grid mriz) //Oncross enemy destroy -> not working in this time
         {
             int left = Convert.ToInt32(c.Margin.Left);
             int up = Convert.ToInt32(c.Margin.Top);
+            bool h_change = false;
             foreach (Enemlog gay in Enemy.enemiesave)
             {
                 if (left + char_width > gay.Left && up + char_height > gay.Top && left < gay.Right && up < gay.Bottom)
                 {
-                    HP_Change(-30);
+                    HP_Change(gay.hp_taking_close);
                     /* - this wark for catching enemy - 
                     Enemy.Destroy(mriz, gay);
                     Enemy.enemiesave.Remove(gay);
                     */
+                    h_change = true;
                     break;
+                    
                 }
+            }
+            if (h_change == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         public void Moveleft() //funcion to move left
