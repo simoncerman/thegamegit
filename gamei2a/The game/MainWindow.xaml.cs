@@ -372,14 +372,32 @@ namespace The_game
             List<Buletinf> intime = new List<Buletinf>();
             foreach (Buletinf bullet in bulletlog)
             {
-
-                FrameworkElement save = bullet.El;
-                if (save.Margin.Left < 0 || save.Margin.Left > MainWindow.workinggrid_width)
+                bool wallcrossed = false; //proměná na sledování prorazení stěny pro každou kulku
+                bool positionchange = true; //pokud kulka narazí -> nebude již měnit pozici
+                FrameworkElement save = bullet.El; //načtení kulky jako element
+                if (save.Margin.Left < 0 || save.Margin.Left > MainWindow.workinggrid_width) //při průchodu bariérou
                 {
-                    intime.Add(bullet);
-                    mriz.Children.Remove(save);
+                    wallcrossed = true;
+                    positionchange = false;
                 }
-                else
+                foreach (Walliind w in Wall.wali) //při průchodu stěnou
+                {
+                    if (save.Margin.Left + save.Width > w.Wallleft && save.Margin.Top + save.Height > w.Wallup && save.Margin.Left < w.Wallright && save.Margin.Top < w.Walldown)
+                    {
+                        wallcrossed = true;
+                        positionchange = false;
+                    }
+                }
+                if (wallcrossed == true) // pokud každá kulka stěnou projde
+                {
+                    if (intime.Contains(bullet) == false) //Pokud odstraňovací pole již kulku neobsahuje -> vysoce nepravděpodobné
+                    {
+                        intime.Add(bullet); //přidání kulky na list mazání
+                        mriz.Children.Remove(save); //smazání z plochy
+                    }
+                }
+
+                if (positionchange == true)
                 {
                     mriz.Children.Remove(save);
                     save.Margin = new Thickness(save.Margin.Left + bullet.gl, save.Margin.Top + bullet.gt, 0, 0);
