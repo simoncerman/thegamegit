@@ -249,7 +249,7 @@ namespace The_game
     {
         public EnType1(Grid mriz) // create enemy type 1
         {
-            int hp_taking_closee = -30;
+            int hp_taking_closee = -3;
             Random rand = new Random();
             int ontruetest = 0;
             BitmapImage point = Supfunc.Urimaker("en1.png");
@@ -471,14 +471,16 @@ namespace The_game
         {
             int result = Convert.ToInt32((hplabel.Content.ToString()));
             result += hpdown;
-            hplabel.Content = result;
-            if (result>=0)
+            if (result > 0)
             {
+                hplabel.Content = result;
                 hp_bar.Width = result * 2;
             }
-            if (result<0)
+            if (result <= 0)
             {
+                hplabel.Content = 0;
                 hp_bar.Width = 0;
+                
             }
         }
         public bool Echeck(Grid mriz) //Oncross enemy destroy -> not working in this time
