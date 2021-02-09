@@ -69,19 +69,42 @@ namespace The_game
             wall2 = new Wall(600, 300, 150, 50, mriz);
             wall3 = new Wall(350, 500, 150, 50, mriz);
         }
+        int dashtime = 15; // -> Dast time <-
+
         readonly int ts = 500; //time when funcion jump is called
         int interval = 0; //using for timing of jump  - must be 0 -> every round +1 (every milisec)
         int spawningtime = 0; // same like interval -> used for enemies
         int nexttimer = 0; // like timer for check of enemy
+        int dashterval = 0; //interval for dash
         public static bool hitted = false; // if char (ivan) was hitted - waiting 30 times
         public static int doublejump = 0; //is used for doublejump -_-
-        public static bool right, left, jump; //some bools maybe used in time more
+        public static bool right, left, jump, dash; //some bools maybe used in time more
         readonly int gravity = 30; //acualy not gravity but jump-up force - its like anti-gravity
         public static int force = 0; //changing when (jump - Increase / fall - Decrease)
         private void Clock(object sender, EventArgs e) //clasic timing thing
         {
-            if (right == true) { ivan.Moveright(); }
-            if (left == true) { ivan.Moveleft(); }
+            if (right == true) { ivan.Moveright(5); }
+            if (left == true) { ivan.Moveleft(5); }
+            if (dash == true)
+            {
+                dashterval++;
+                if (dashterval<dashtime)
+                {
+                    if (Character.charonright == true)
+                    {
+                        ivan.Moveright(20);
+                    }
+                    if (Character.charonright == false)
+                    {
+                        ivan.Moveleft(20);
+                    }
+                }
+                else
+                {
+                    dashterval = 0;
+                    dash = false;
+                }
+            }
             interval++;
             spawningtime++;
             if (hitted == true)
@@ -121,6 +144,7 @@ namespace The_game
         }
         private void KeyDown1(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Q) { dash = true; } //make dash 
             if (e.Key == Key.Right || e.Key == Key.D) { right = true; } //go to right
             if (e.Key == Key.Left || e.Key == Key.A) { left = true; } //go to left
             if (e.Key == Key.Space && doublejump < 1) //change force if space key down
@@ -529,7 +553,7 @@ namespace The_game
                 return false;
             }
         }
-        public void Moveleft() //funcion to move left
+        public void Moveleft(int speed) //funcion to move left
         {
             bool inner = true;
             int left = Convert.ToInt32(c.Margin.Left);
@@ -548,13 +572,13 @@ namespace The_game
             if (inner == true)
             {
                 charonright = false;
-                c.Margin = new Thickness(left - 5, up, 0, 0);
+                c.Margin = new Thickness(left - speed, up, 0, 0);
                 c.Fill = new ImageBrush(charleft);
             }
             charposleft = Convert.ToInt32(c.Margin.Left);
             charposttop = Convert.ToInt32(c.Margin.Top);
         }
-        public void Moveright() //funcion to move right
+        public void Moveright(int speed) //funcion to move right
         {
             bool inner = true;
             int left = Convert.ToInt32(c.Margin.Left);
@@ -573,7 +597,7 @@ namespace The_game
             if (inner == true)
             {
                 charonright = true;
-                c.Margin = new Thickness(left + 5, up, 0, 0);
+                c.Margin = new Thickness(left + speed, up, 0, 0);
                 c.Fill = new ImageBrush(charright);
             }
             charposleft = Convert.ToInt32(c.Margin.Left);
