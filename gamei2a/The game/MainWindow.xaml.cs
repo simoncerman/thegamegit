@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Data;
 using System.Diagnostics;
+using System.Media;
+
 namespace The_game
 {
     /// <summary>
@@ -53,7 +55,7 @@ namespace The_game
     {
         public static int workinggrid_width = 900; // not changing - for reading (mainly for character -> will be used for enemy too)
         public static int workinggrid_height = 750; // -||-
-        private readonly Character ivan; // main character 
+        public Character ivan; // main character 
         public MainWindow()
         {
             InitializeComponent();
@@ -76,13 +78,23 @@ namespace The_game
         int spawningtime = 0; // same like interval -> used for enemies
         int nexttimer = 0; // like timer for check of enemy
         int dashterval = 0; //interval for dash
-        public static bool hitted = false; // if char (ivan) was hitted - waiting 30 times
+        int mouse_timer = 0;
+        public static bool hitted, plstart = false; // if char (ivan) was hitted - waiting 30 times, player started
         public static int doublejump = 0; //is used for doublejump -_-
-        public static bool right, left, jump, dash; //some bools maybe used in time more
+        public static bool right, left, jump, dash, mouse_down, mouse_up; //some bools maybe used in time more
         readonly int gravity = 30; //acualy not gravity but jump-up force - its like anti-gravity
         public static int force = 0; //changing when (jump - Increase / fall - Decrease)
+        public SoundPlayer player = new SoundPlayer(Convert.ToString(System.AppDomain.CurrentDomain.BaseDirectory) + "/song/" + "kulervouci.wav");
+
+
         private void Clock(object sender, EventArgs e) //clasic timing thing
         {
+            if (plstart==false)
+            {
+                plstart = true;
+                player.Load();
+                player.Play();
+            }
             if (right == true) { ivan.Moveright(5); }
             if (left == true) { ivan.Moveleft(5); }
             if (dash == true)
@@ -90,19 +102,19 @@ namespace The_game
                 dashterval++;
                 if (dashterval<dashtime)
                 {
-                    if (Character.charonright == true)
+                    if (Character.charonright == true) //otočení postavy vpravo
                     {
                         ivan.Moveright(20);
                     }
-                    if (Character.charonright == false)
+                    if (Character.charonright == false) //otočení postavy vlevo
                     {
                         ivan.Moveleft(20);
                     }
                 }
                 else
                 {
-                    dashterval = 0;
-                    dash = false;
+                    dashterval = 0; //pokud probýhalo již určitý čas, tak se vynuluje
+                    dash = false; // a nastaví se na false 
                 }
             }
             interval++;
@@ -131,16 +143,38 @@ namespace The_game
                 spawningtime = 0;
             }
             Bullet.Bulletchange(mriz);
+            if (mouse_down == true) // if hold mouse
+            {
+                if (mouse_timer == 5) // if timer will be on 5 cycles 
+                {
+                    mouse_timer = 0; //return timer to 0
+                    double left_m = Mouse.GetPosition(this).X; //take x and the same for y 
+                    double top_m = Mouse.GetPosition(this).Y;
+                    Point clicked = new Point(left_m, top_m); // create point from this 
+                    Bullet b = new Bullet(mriz, clicked); // create new bullet -> take point as argument
 
-
+                    if (left_m - Character.charposleft-50>0)
+                    {
+                        ivan.SideChange("right");
+                    }
+                    else
+                    {
+                        ivan.SideChange("left");
+                    }
+                }
+                else
+                {
+                    mouse_timer++;
+                }
+            }
         }
-        private void Mousemainclick(object sender, MouseButtonEventArgs e) //shoot on click
+        private void Mousemainclickup(object sender, MouseButtonEventArgs e) // push up
         {
-            double left_m = Mouse.GetPosition(this).X;
-            double top_m = Mouse.GetPosition(this).Y;
-            Point clicked = new Point(left_m, top_m);
-            Bullet b = new Bullet(mriz, clicked);
-
+            mouse_down = false;
+        }
+        private void Mousemainclick(object sender, MouseButtonEventArgs e) //push down
+        {
+            mouse_down = true;
         }
         private void KeyDown1(object sender, KeyEventArgs e)
         {
@@ -573,7 +607,7 @@ namespace The_game
             {
                 charonright = false;
                 c.Margin = new Thickness(left - speed, up, 0, 0);
-                c.Fill = new ImageBrush(charleft);
+                SideChange("left");
             }
             charposleft = Convert.ToInt32(c.Margin.Left);
             charposttop = Convert.ToInt32(c.Margin.Top);
@@ -598,7 +632,7 @@ namespace The_game
             {
                 charonright = true;
                 c.Margin = new Thickness(left + speed, up, 0, 0);
-                c.Fill = new ImageBrush(charright);
+                SideChange("right");
             }
             charposleft = Convert.ToInt32(c.Margin.Left);
             charposttop = Convert.ToInt32(c.Margin.Top);
@@ -679,6 +713,18 @@ namespace The_game
             }
             charposleft = Convert.ToInt32(c.Margin.Left);
             charposttop = Convert.ToInt32(c.Margin.Top);
+        }
+        public void SideChange(string side)
+        {
+            if (side == "left")
+            {
+                c.Fill = new ImageBrush(charleft);
+            }
+            if (side == "right")
+            {
+                c.Fill = new ImageBrush(charright);
+            }
+
         }
     }
 }
